@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang='en-US'>
+<head>
+<script type="text/javascript">
+  retval = {"has_service":false,"zip":"","city":"","user":{}};
+  data = {"page_type":"advice","page_name":"Article"};
+
+  data.unique_id = "NEWZ4S7PIFskWbQv";
+
+  // Parse cookie'd car
+  var ca = (document.cookie || "").split(";");
+  var carobj = {};
+  for (var i = 0; i < ca.length; i++) {
+    var cval = (ca[i] || "").split("=");
+    if (cval.length === 2 && (!!cval[0].match(/ymCar/) || !!cval[0].match(/ymCse/))) {
+      try {
+        var json = JSON.parse(decodeURIComponent(cval[1]));
+        carobj = !cval[0].match(/ymCar/) ? (json.car || {}) : json;
+      } catch (e) {
+        carobj = {};
+      }
+      break;
+    }
+  }
+  // If empty, fill it with a car from the user's account
+  if ((carobj.make || '*') === '*') {
+    carobj = (retval.user && retval.user.car) || {};
+  }
+
+  // Plugin servicable area tag
+  data.is_servicable = !!retval.has_service ? retval.city : 'no';
+  data.in_service_area = data.is_servicable;
+  data.service_area = retval.city;
+  data.customer_zip = retval.zip;
+
+  // Plugin cookied car info
+  data.car_make  = (carobj.make  || '*') !== '*' ? carobj.make  : null;
+  data.car_model = (carobj.model || '*') !== '*' ? carobj.model : null;
+  data.car_year  = (carobj.year  || '*') !== '*' ? carobj.year  : null;
+  data.car_trim  = (carobj.trim  || '*') !== '*' ? carobj.trim  : null;
+  if (data.car_make) {
+    data.ui_makemodel = !!data.car_make ? data.car_make + " " + data.car_model : data.car_make;
+  }
+
+  // Plugin user info
+  data.new_customer = 'yes';
+  if (retval.user) {
+    data.customer_id = retval.user.id;
+    data.customer_email = retval.user.email;
+    data.customer_purchases = retval.user.purchases;
+    data.new_customer = retval.user.purchases === '0' ? 'yes' : 'no';
+  }
+
+  // Coalesce user token from unique_id, and user id from customer_id fields.
+  data.lead_id = data.customer_id || data.unique_id;
+
+  dataLayer = [data];
+</script>
+
+
+
+<script type="text/javascript">
+  var hamlet = {
+    _callback: null,
+    _deferredActivations: [],
+    variationMap: null,
+    _track: function(event, payload) {
+      payload = payload || {};
+      payload.type = event;
+
+      xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('POST', '/track', true);
+      xmlhttp.setRequestHeader('Content-Type','application/json');
+      xmlhttp.send(JSON.stringify(payload));
+    },
+    _getExperimentData: function() {
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          data = JSON.parse(this.responseText);
+          window.hamlet.variationMap = data;
+
+          for (var i = 0; i < window.hamlet._deferredActivations.length; i++) {
+            window.hamlet._activate(window.hamlet._deferredActivations[i]);
+          }
+
+          if (window.hamlet._callback)
+            window.hamlet._callback(data);
+        }
+      };
+      request.open('GET', '/get-ym-ab', true);
+      request.send();
+    },
+    _activate: function(experimentId) {
+      if (this.variationMap.hasOwnProperty(experimentId)) {
+        this._track("Activate Experiment", {experiment_id: experimentId, variation_id: this.getVariation(experimentId, 0)});
+      }
+    },
+    onReady: function(callback) {
+      this._callback = callback;
+      if (this.variationMap)
+        this._callback(this.variationMap);
+    },
+    activate: function(experimentId) {
+      if (this.variationMap)
+        this._activate(experimentId);
+      else
+        this._deferredActivations.push(experimentId);
+    },
+    getVariation: function(experimentId, defaultVariation) {
+      defaultVariation = defaultVariation || 0
+      return (this.variationMap &&
+              this.variationMap.hasOwnProperty(experimentId) &&
+              this.variationMap[experimentId]) || defaultVariation;
+    }
+  };
+  if (!hamlet.variationMap)
+    hamlet._getExperimentData();
+</script>
+<script type="text/javascript">
+  var _affirm_config = {
+    public_api_key:  "N8F1ZPYBJWXQGB9A",
+    script:          "https://cdn1.affirm.com/js/v2/affirm.js"
+  };
+  (function(l,g,m,e,a,f,b){var d,c=l[m]||{},h=document.createElement(f),n=document.getElementsByTagName(f)[0],k=function(a,b,c){return function(){a[b]._.push([c,arguments])}};c[e]=k(c,e,"set");d=c[e];c[a]={};c[a]._=[];d._=[];c[a][b]=k(c,a,b);a=0;for(b="set add save post open empty reset on off trigger ready setProduct".split(" ");a<b.length;a++)d[b[a]]=k(c,e,b[a]);a=0;for(b=["get","token","url","items"];a<b.length;a++)d[b[a]]=function(){};h.async=!0;h.src=g[f];n.parentNode.insertBefore(h,n);delete g[f];d(g);l[m]=c})(window,_affirm_config,"affirm","checkout","ui","script","ready");
+</script>
+
+
+<script type="text/javascript">
+  var hamlet = {
+    _callback: null,
+    _deferredActivations: [],
+    variationMap: null,
+    _track: function(event, payload) {
+      payload = payload || {};
+      payload.type = event;
+
+      xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('POST', '/track', true);
+      xmlhttp.setRequestHeader('Content-Type','application/json');
+      xmlhttp.send(JSON.stringify(payload));
+    },
+    _getExperimentData: function() {
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          data = JSON.parse(this.responseText);
+          window.hamlet.variationMap = data;
+
+          for (var i = 0; i < window.hamlet._deferredActivations.length; i++) {
+            window.hamlet._activate(window.hamlet._deferredActivations[i]);
+          }
+
+          if (window.hamlet._callback)
+            window.hamlet._callback(data);
+        }
+      };
+      request.open('GET', '/get-ym-ab', true);
+      request.send();
+    },
+    _activate: function(experimentId) {
+      if (this.variationMap.hasOwnProperty(experimentId)) {
+        this._track("Activate Experiment", {experiment_id: experimentId, variation_id: this.getVariation(experimentId, 0)});
+      }
+    },
+    onReady: function(callback) {
+      this._callback = callback;
+      if (this.variationMap)
+        this._callback(this.variationMap);
+    },
+    activate: function(experimentId) {
+      if (this.variationMap)
+        this._activate(experimentId);
+      else
+        this._deferredActivations.push(experimentId);
+    },
+    getVariation: function(experimentId, defaultVariation) {
+      defaultVariation = defaultVariation || 0
+      return (this.variationMap &&
+              this.variationMap.hasOwnProperty(experimentId) &&
+              this.variationMap[experimentId]) || defaultVariation;
+    }
+  };
+  if (!hamlet.variationMap)
+    hamlet._getExperimentData();
+</script>
+<script async src="https://apis.google.com/js/api:client.js"></script>
+<script type="text/javascript">
+  window.google_api_client_id = "71003800957-oojdht53h19ia7fnkjpjeiqha33sq07v.apps.googleusercontent.com";
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  // Tie the casa_t token to the GA session
+  var casa_t = null;
+  var cookies = document.cookie.split(";");
+  for (i = 0; i < cookies.length; i++) {
+    var cookie = (cookies[i] || "").split("=");
+    if (cookie.length === 2 && cookie[0].trim() === "casa_t") {
+      casa_t = cookie[1].trim();
+      break;
+    }
+  }
+
+
+
+  ga('create', 'UA-21909675-7', 'auto', {userId: casa_t});
+  ga('send', 'pageview');
+</script>
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+    fbq('init', '674446389320951');
+    fbq('track', "PageView");
+  </script>
+
+<script type="text/javascript">
+    window.__insp = false;
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:81847,hjsv:5};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+<script>
+  window.checkAndMountReact = function() {
+    if (window.mountReact) {
+      return window.mountReact();
+    }
+    setTimeout(function() {
+      checkAndMountReact();
+    });
+  }
+  
+  window.loadAsyncCss = function(href) {
+    var ss = window.document.createElement("link");
+    ss.rel = "stylesheet";
+    ss.type = "text/css";
+    ss.href = href
+    ss.media = "ym";
+    var ref = window.document.getElementsByTagName('head')[0].childNodes[0];
+    ref.parentNode.insertBefore(ss, ref);
+    var cssLoaded = function() {
+      var sheets = window.document.styleSheets;
+      var i = sheets.length;
+      while (i--) {
+        if (sheets[i].href === ss.href) {
+          ss.media = 'screen';
+          return;
+        }
+      }
+      setTimeout(function() {
+        cssLoaded();
+      });
+    }
+    cssLoaded();
+  }
+</script>
+
+<title>The Most and Least Expensive Cars to Maintain | YourMechanic Advice</title>
+<script type='application/ld+json'>
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "YourMechanic",
+  "url": "https://www.yourmechanic.com",
+  "logo": "https://www.yourmechanic.com/assets/ym-logo-straight.png",
+  "contactPoint" : [{
+    "@type" : "ContactPoint",
+    "telephone" : "1-855-347-2779",
+    "contactType" : "customer service",
+    "contactOption" : "TollFree",
+    "areaServed" : "US"
+  }],
+  "sameAs" : [
+    "https://www.facebook.com/yourmech",
+    "https://www.twitter.com/yourmechanic",
+    "https://plus.google.com/Yourmechanic"
+  ]
+}
+
+
+
+</script>
+<meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<script>window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","errorBeacon":"bam.nr-data.net","licenseKey":"d327ef0c50","applicationID":"282801445","transactionName":"cVtZTEtWWFsBRxhUBURdVF0WWEZDDVZbUA==","queueTime":0,"applicationTime":1980,"agent":""}</script>
+<script>(window.NREUM||(NREUM={})).loader_config={xpid:"VgQOUlFTCRACXFNaBwADUlE=",licenseKey:"d327ef0c50",applicationID:"282801445"};window.NREUM||(NREUM={}),__nr_require=function(t,n,e){function r(e){if(!n[e]){var o=n[e]={exports:{}};t[e][0].call(o.exports,function(n){var o=t[e][1][n];return r(o||n)},o,o.exports)}return n[e].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<e.length;o++)r(e[o]);return r}({1:[function(t,n,e){function r(t){try{s.console&&console.log(t)}catch(n){}}var o,i=t("ee"),a=t(21),s={};try{o=localStorage.getItem("__nr_flags").split(","),console&&"function"==typeof console.log&&(s.console=!0,o.indexOf("dev")!==-1&&(s.dev=!0),o.indexOf("nr_dev")!==-1&&(s.nrDev=!0))}catch(c){}s.nrDev&&i.on("internal-error",function(t){r(t.stack)}),s.dev&&i.on("fn-err",function(t,n,e){r(e.stack)}),s.dev&&(r("NR AGENT IN DEVELOPMENT MODE"),r("flags: "+a(s,function(t,n){return t}).join(", ")))},{}],2:[function(t,n,e){function r(t,n,e,r,s){try{p?p-=1:o(s||new UncaughtException(t,n,e),!0)}catch(f){try{i("ierr",[f,c.now(),!0])}catch(d){}}return"function"==typeof u&&u.apply(this,a(arguments))}function UncaughtException(t,n,e){this.message=t||"Uncaught error with no additional information",this.sourceURL=n,this.line=e}function o(t,n){var e=n?null:c.now();i("err",[t,e])}var i=t("handle"),a=t(22),s=t("ee"),c=t("loader"),f=t("gos"),u=window.onerror,d=!1,l="nr@seenError",p=0;c.features.err=!0,t(1),window.onerror=r;try{throw new Error}catch(h){"stack"in h&&(t(9),t(8),"addEventListener"in window&&t(5),c.xhrWrappable&&t(10),d=!0)}s.on("fn-start",function(t,n,e){d&&(p+=1)}),s.on("fn-err",function(t,n,e){d&&!e[l]&&(f(e,l,function(){return!0}),this.thrown=!0,o(e))}),s.on("fn-end",function(){d&&!this.thrown&&p>0&&(p-=1)}),s.on("internal-error",function(t){i("ierr",[t,c.now(),!0])})},{}],3:[function(t,n,e){t("loader").features.ins=!0},{}],4:[function(t,n,e){function r(t){}if(window.performance&&window.performance.timing&&window.performance.getEntriesByType){var o=t("ee"),i=t("handle"),a=t(9),s=t(8),c="learResourceTimings",f="addEventListener",u="resourcetimingbufferfull",d="bstResource",l="resource",p="-start",h="-end",m="fn"+p,w="fn"+h,v="bstTimer",g="pushState",y=t("loader");y.features.stn=!0,t(7),"addEventListener"in window&&t(5);var x=NREUM.o.EV;o.on(m,function(t,n){var e=t[0];e instanceof x&&(this.bstStart=y.now())}),o.on(w,function(t,n){var e=t[0];e instanceof x&&i("bst",[e,n,this.bstStart,y.now()])}),a.on(m,function(t,n,e){this.bstStart=y.now(),this.bstType=e}),a.on(w,function(t,n){i(v,[n,this.bstStart,y.now(),this.bstType])}),s.on(m,function(){this.bstStart=y.now()}),s.on(w,function(t,n){i(v,[n,this.bstStart,y.now(),"requestAnimationFrame"])}),o.on(g+p,function(t){this.time=y.now(),this.startPath=location.pathname+location.hash}),o.on(g+h,function(t){i("bstHist",[location.pathname+location.hash,this.startPath,this.time])}),f in window.performance&&(window.performance["c"+c]?window.performance[f](u,function(t){i(d,[window.performance.getEntriesByType(l)]),window.performance["c"+c]()},!1):window.performance[f]("webkit"+u,function(t){i(d,[window.performance.getEntriesByType(l)]),window.performance["webkitC"+c]()},!1)),document[f]("scroll",r,{passive:!0}),document[f]("keypress",r,!1),document[f]("click",r,!1)}},{}],5:[function(t,n,e){function r(t){for(var n=t;n&&!n.hasOwnProperty(u);)n=Object.getPrototypeOf(n);n&&o(n)}function o(t){s.inPlace(t,[u,d],"-",i)}function i(t,n){return t[1]}var a=t("ee").get("events"),s=t("wrap-function")(a,!0),c=t("gos"),f=XMLHttpRequest,u="addEventListener",d="removeEventListener";n.exports=a,"getPrototypeOf"in Object?(r(document),r(window),r(f.prototype)):f.prototype.hasOwnProperty(u)&&(o(window),o(f.prototype)),a.on(u+"-start",function(t,n){var e=t[1],r=c(e,"nr@wrapped",function(){function t(){if("function"==typeof e.handleEvent)return e.handleEvent.apply(e,arguments)}var n={object:t,"function":e}[typeof e];return n?s(n,"fn-",null,n.name||"anonymous"):e});this.wrapped=t[1]=r}),a.on(d+"-start",function(t){t[1]=this.wrapped||t[1]})},{}],6:[function(t,n,e){function r(t,n,e){var r=t[n];"function"==typeof r&&(t[n]=function(){var t=i(arguments),n={};o.emit(e+"before-start",[t],n);var a;n[m]&&n[m].dt&&(a=n[m].dt);var s=r.apply(this,t);return o.emit(e+"start",[t,a],s),s.then(function(t){return o.emit(e+"end",[null,t],s),t},function(t){throw o.emit(e+"end",[t],s),t})})}var o=t("ee").get("fetch"),i=t(22),a=t(21);n.exports=o;var s=window,c="fetch-",f=c+"body-",u=["arrayBuffer","blob","json","text","formData"],d=s.Request,l=s.Response,p=s.fetch,h="prototype",m="nr@context";d&&l&&p&&(a(u,function(t,n){r(d[h],n,f),r(l[h],n,f)}),r(s,"fetch",c),o.on(c+"end",function(t,n){var e=this;if(n){var r=n.headers.get("content-length");null!==r&&(e.rxSize=r),o.emit(c+"done",[null,n],e)}else o.emit(c+"done",[t],e)}))},{}],7:[function(t,n,e){var r=t("ee").get("history"),o=t("wrap-function")(r);n.exports=r;var i=window.history&&window.history.constructor&&window.history.constructor.prototype,a=window.history;i&&i.pushState&&i.replaceState&&(a=i),o.inPlace(a,["pushState","replaceState"],"-")},{}],8:[function(t,n,e){var r=t("ee").get("raf"),o=t("wrap-function")(r),i="equestAnimationFrame";n.exports=r,o.inPlace(window,["r"+i,"mozR"+i,"webkitR"+i,"msR"+i],"raf-"),r.on("raf-start",function(t){t[0]=o(t[0],"fn-")})},{}],9:[function(t,n,e){function r(t,n,e){t[0]=a(t[0],"fn-",null,e)}function o(t,n,e){this.method=e,this.timerDuration=isNaN(t[1])?0:+t[1],t[0]=a(t[0],"fn-",this,e)}var i=t("ee").get("timer"),a=t("wrap-function")(i),s="setTimeout",c="setInterval",f="clearTimeout",u="-start",d="-";n.exports=i,a.inPlace(window,[s,"setImmediate"],s+d),a.inPlace(window,[c],c+d),a.inPlace(window,[f,"clearImmediate"],f+d),i.on(c+u,r),i.on(s+u,o)},{}],10:[function(t,n,e){function r(t,n){d.inPlace(n,["onreadystatechange"],"fn-",s)}function o(){var t=this,n=u.context(t);t.readyState>3&&!n.resolved&&(n.resolved=!0,u.emit("xhr-resolved",[],t)),d.inPlace(t,g,"fn-",s)}function i(t){y.push(t),h&&(b?b.then(a):w?w(a):(E=-E,O.data=E))}function a(){for(var t=0;t<y.length;t++)r([],y[t]);y.length&&(y=[])}function s(t,n){return n}function c(t,n){for(var e in t)n[e]=t[e];return n}t(5);var f=t("ee"),u=f.get("xhr"),d=t("wrap-function")(u),l=NREUM.o,p=l.XHR,h=l.MO,m=l.PR,w=l.SI,v="readystatechange",g=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"],y=[];n.exports=u;var x=window.XMLHttpRequest=function(t){var n=new p(t);try{u.emit("new-xhr",[n],n),n.addEventListener(v,o,!1)}catch(e){try{u.emit("internal-error",[e])}catch(r){}}return n};if(c(p,x),x.prototype=p.prototype,d.inPlace(x.prototype,["open","send"],"-xhr-",s),u.on("send-xhr-start",function(t,n){r(t,n),i(n)}),u.on("open-xhr-start",r),h){var b=m&&m.resolve();if(!w&&!m){var E=1,O=document.createTextNode(E);new h(a).observe(O,{characterData:!0})}}else f.on("fn-end",function(t){t[0]&&t[0].type===v||a()})},{}],11:[function(t,n,e){function r(t){if(!i(t))return null;var n=window.NREUM;if(!n.loader_config)return null;var e=(n.loader_config.accountID||"").toString()||null,r=(n.loader_config.agentID||"").toString()||null,s=(n.loader_config.trustKey||"").toString()||null;if(!e||!r)return null;var c=a.generateCatId(),f=a.generateCatId(),u=Date.now(),d=o(c,f,u,e,r,s);return{header:d,guid:c,traceId:f,timestamp:u}}function o(t,n,e,r,o,i){var a="btoa"in window&&"function"==typeof window.btoa;if(!a)return null;var s={v:[0,1],d:{ty:"Browser",ac:r,ap:o,id:t,tr:n,ti:e}};return i&&r!==i&&(s.d.tk=i),btoa(JSON.stringify(s))}function i(t){var n=!1,e=!1,r={};if("init"in NREUM&&"distributed_tracing"in NREUM.init&&(r=NREUM.init.distributed_tracing,e=!!r.enabled),e)if(t.sameOrigin)n=!0;else if(r.allowed_origins instanceof Array)for(var o=0;o<r.allowed_origins.length;o++){var i=s(r.allowed_origins[o]);if(t.hostname===i.hostname&&t.protocol===i.protocol&&t.port===i.port){n=!0;break}}return e&&n}var a=t(19),s=t(13);n.exports={generateTracePayload:r,shouldGenerateTrace:i}},{}],12:[function(t,n,e){function r(t){var n=this.params,e=this.metrics;if(!this.ended){this.ended=!0;for(var r=0;r<l;r++)t.removeEventListener(d[r],this.listener,!1);n.aborted||(e.duration=a.now()-this.startTime,this.loadCaptureCalled||4!==t.readyState?null==n.status&&(n.status=0):i(this,t),e.cbTime=this.cbTime,u.emit("xhr-done",[t],t),s("xhr",[n,e,this.startTime]))}}function o(t,n){var e=c(n),r=t.params;r.host=e.hostname+":"+e.port,r.pathname=e.pathname,t.parsedOrigin=c(n),t.sameOrigin=t.parsedOrigin.sameOrigin}function i(t,n){t.params.status=n.status;var e=w(n,t.lastSize);if(e&&(t.metrics.rxSize=e),t.sameOrigin){var r=n.getResponseHeader("X-NewRelic-App-Data");r&&(t.params.cat=r.split(", ").pop())}t.loadCaptureCalled=!0}var a=t("loader");if(a.xhrWrappable){var s=t("handle"),c=t(13),f=t(11).generateTracePayload,u=t("ee"),d=["load","error","abort","timeout"],l=d.length,p=t("id"),h=t(17),m=t(16),w=t(14),v=window.XMLHttpRequest;a.features.xhr=!0,t(10),t(6),u.on("new-xhr",function(t){var n=this;n.totalCbs=0,n.called=0,n.cbTime=0,n.end=r,n.ended=!1,n.xhrGuids={},n.lastSize=null,n.loadCaptureCalled=!1,t.addEventListener("load",function(e){i(n,t)},!1),h&&(h>34||h<10)||window.opera||t.addEventListener("progress",function(t){n.lastSize=t.loaded},!1)}),u.on("open-xhr-start",function(t){this.params={method:t[0]},o(this,t[1]),this.metrics={}}),u.on("open-xhr-end",function(t,n){"loader_config"in NREUM&&"xpid"in NREUM.loader_config&&this.sameOrigin&&n.setRequestHeader("X-NewRelic-ID",NREUM.loader_config.xpid);var e=f(this.parsedOrigin);e&&e.header&&(n.setRequestHeader("newrelic",e.header),this.dt=e)}),u.on("send-xhr-start",function(t,n){var e=this.metrics,r=t[0],o=this;if(e&&r){var i=m(r);i&&(e.txSize=i)}this.startTime=a.now(),this.listener=function(t){try{"abort"!==t.type||o.loadCaptureCalled||(o.params.aborted=!0),("load"!==t.type||o.called===o.totalCbs&&(o.onloadCalled||"function"!=typeof n.onload))&&o.end(n)}catch(e){try{u.emit("internal-error",[e])}catch(r){}}};for(var s=0;s<l;s++)n.addEventListener(d[s],this.listener,!1)}),u.on("xhr-cb-time",function(t,n,e){this.cbTime+=t,n?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof e.onload||this.end(e)}),u.on("xhr-load-added",function(t,n){var e=""+p(t)+!!n;this.xhrGuids&&!this.xhrGuids[e]&&(this.xhrGuids[e]=!0,this.totalCbs+=1)}),u.on("xhr-load-removed",function(t,n){var e=""+p(t)+!!n;this.xhrGuids&&this.xhrGuids[e]&&(delete this.xhrGuids[e],this.totalCbs-=1)}),u.on("addEventListener-end",function(t,n){n instanceof v&&"load"===t[0]&&u.emit("xhr-load-added",[t[1],t[2]],n)}),u.on("removeEventListener-end",function(t,n){n instanceof v&&"load"===t[0]&&u.emit("xhr-load-removed",[t[1],t[2]],n)}),u.on("fn-start",function(t,n,e){n instanceof v&&("onload"===e&&(this.onload=!0),("load"===(t[0]&&t[0].type)||this.onload)&&(this.xhrCbStart=a.now()))}),u.on("fn-end",function(t,n){this.xhrCbStart&&u.emit("xhr-cb-time",[a.now()-this.xhrCbStart,this.onload,n],n)}),u.on("fetch-before-start",function(t){var n,e=t[1]||{};"string"==typeof t[0]?n=t[0]:t[0]&&t[0].url&&(n=t[0].url),n&&(this.parsedOrigin=c(n),this.sameOrigin=this.parsedOrigin.sameOrigin);var r=f(this.parsedOrigin);if(r&&r.header){var o=r.header;if("string"==typeof t[0]){var i={};for(var a in e)i[a]=e[a];i.headers=new Headers(e.headers||{}),i.headers.set("newrelic",o),this.dt=r,t.length>1?t[1]=i:t.push(i)}else t[0]&&t[0].headers&&(t[0].headers.append("newrelic",o),this.dt=r)}})}},{}],13:[function(t,n,e){var r={};n.exports=function(t){if(t in r)return r[t];var n=document.createElement("a"),e=window.location,o={};n.href=t,o.port=n.port;var i=n.href.split("://");!o.port&&i[1]&&(o.port=i[1].split("/")[0].split("@").pop().split(":")[1]),o.port&&"0"!==o.port||(o.port="https"===i[0]?"443":"80"),o.hostname=n.hostname||e.hostname,o.pathname=n.pathname,o.protocol=i[0],"/"!==o.pathname.charAt(0)&&(o.pathname="/"+o.pathname);var a=!n.protocol||":"===n.protocol||n.protocol===e.protocol,s=n.hostname===document.domain&&n.port===e.port;return o.sameOrigin=a&&(!n.hostname||s),"/"===o.pathname&&(r[t]=o),o}},{}],14:[function(t,n,e){function r(t,n){var e=t.responseType;return"json"===e&&null!==n?n:"arraybuffer"===e||"blob"===e||"json"===e?o(t.response):"text"===e||""===e||void 0===e?o(t.responseText):void 0}var o=t(16);n.exports=r},{}],15:[function(t,n,e){function r(){}function o(t,n,e){return function(){return i(t,[f.now()].concat(s(arguments)),n?null:this,e),n?void 0:this}}var i=t("handle"),a=t(21),s=t(22),c=t("ee").get("tracer"),f=t("loader"),u=NREUM;"undefined"==typeof window.newrelic&&(newrelic=u);var d=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],l="api-",p=l+"ixn-";a(d,function(t,n){u[n]=o(l+n,!0,"api")}),u.addPageAction=o(l+"addPageAction",!0),u.setCurrentRouteName=o(l+"routeName",!0),n.exports=newrelic,u.interaction=function(){return(new r).get()};var h=r.prototype={createTracer:function(t,n){var e={},r=this,o="function"==typeof n;return i(p+"tracer",[f.now(),t,e],r),function(){if(c.emit((o?"":"no-")+"fn-start",[f.now(),r,o],e),o)try{return n.apply(this,arguments)}catch(t){throw c.emit("fn-err",[arguments,this,t],e),t}finally{c.emit("fn-end",[f.now()],e)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,n){h[n]=o(p+n)}),newrelic.noticeError=function(t,n){"string"==typeof t&&(t=new Error(t)),i("err",[t,f.now(),!1,n])}},{}],16:[function(t,n,e){n.exports=function(t){if("string"==typeof t&&t.length)return t.length;if("object"==typeof t){if("undefined"!=typeof ArrayBuffer&&t instanceof ArrayBuffer&&t.byteLength)return t.byteLength;if("undefined"!=typeof Blob&&t instanceof Blob&&t.size)return t.size;if(!("undefined"!=typeof FormData&&t instanceof FormData))try{return JSON.stringify(t).length}catch(n){return}}}},{}],17:[function(t,n,e){var r=0,o=navigator.userAgent.match(/Firefox[\/\s](\d+\.\d+)/);o&&(r=+o[1]),n.exports=r},{}],18:[function(t,n,e){function r(t,n){var e=t.getEntries();e.forEach(function(t){"first-paint"===t.name?c("timing",["fp",Math.floor(t.startTime)]):"first-contentful-paint"===t.name&&c("timing",["fcp",Math.floor(t.startTime)])})}function o(t,n){var e=t.getEntries();e.length>0&&c("lcp",[e[e.length-1]])}function i(t){if(t instanceof u&&!l){var n,e=Math.round(t.timeStamp);n=e>1e12?Date.now()-e:f.now()-e,l=!0,c("timing",["fi",e,{type:t.type,fid:n}])}}if(!("init"in NREUM&&"page_view_timing"in NREUM.init&&"enabled"in NREUM.init.page_view_timing&&NREUM.init.page_view_timing.enabled===!1)){var a,s,c=t("handle"),f=t("loader"),u=NREUM.o.EV;if("PerformanceObserver"in window&&"function"==typeof window.PerformanceObserver){a=new PerformanceObserver(r),s=new PerformanceObserver(o);try{a.observe({entryTypes:["paint"]}),s.observe({entryTypes:["largest-contentful-paint"]})}catch(d){}}if("addEventListener"in document){var l=!1,p=["click","keydown","mousedown","pointerdown","touchstart"];p.forEach(function(t){document.addEventListener(t,i,!1)})}}},{}],19:[function(t,n,e){function r(){function t(){return n?15&n[e++]:16*Math.random()|0}var n=null,e=0,r=window.crypto||window.msCrypto;r&&r.getRandomValues&&(n=r.getRandomValues(new Uint8Array(31)));for(var o,i="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx",a="",s=0;s<i.length;s++)o=i[s],"x"===o?a+=t().toString(16):"y"===o?(o=3&t()|8,a+=o.toString(16)):a+=o;return a}function o(){function t(){return n?15&n[e++]:16*Math.random()|0}var n=null,e=0,r=window.crypto||window.msCrypto;r&&r.getRandomValues&&Uint8Array&&(n=r.getRandomValues(new Uint8Array(31)));for(var o=[],i=0;i<16;i++)o.push(t().toString(16));return o.join("")}n.exports={generateUuid:r,generateCatId:o}},{}],20:[function(t,n,e){function r(t,n){if(!o)return!1;if(t!==o)return!1;if(!n)return!0;if(!i)return!1;for(var e=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==e[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var s=navigator.userAgent,c=s.match(a);c&&s.indexOf("Chrome")===-1&&s.indexOf("Chromium")===-1&&(o="Safari",i=c[1])}n.exports={agent:o,version:i,match:r}},{}],21:[function(t,n,e){function r(t,n){var e=[],r="",i=0;for(r in t)o.call(t,r)&&(e[i]=n(r,t[r]),i+=1);return e}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],22:[function(t,n,e){function r(t,n,e){n||(n=0),"undefined"==typeof e&&(e=t?t.length:0);for(var r=-1,o=e-n||0,i=Array(o<0?0:o);++r<o;)i[r]=t[n+r];return i}n.exports=r},{}],23:[function(t,n,e){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(t,n,e){function r(){}function o(t){function n(t){return t&&t instanceof r?t:t?c(t,s,i):i()}function e(e,r,o,i){if(!l.aborted||i){t&&t(e,r,o);for(var a=n(o),s=m(e),c=s.length,f=0;f<c;f++)s[f].apply(a,r);var d=u[y[e]];return d&&d.push([x,e,r,a]),a}}function p(t,n){g[t]=m(t).concat(n)}function h(t,n){var e=g[t];if(e)for(var r=0;r<e.length;r++)e[r]===n&&e.splice(r,1)}function m(t){return g[t]||[]}function w(t){return d[t]=d[t]||o(e)}function v(t,n){f(t,function(t,e){n=n||"feature",y[e]=n,n in u||(u[n]=[])})}var g={},y={},x={on:p,addEventListener:p,removeEventListener:h,emit:e,get:w,listeners:m,context:n,buffer:v,abort:a,aborted:!1};return x}function i(){return new r}function a(){(u.api||u.feature)&&(l.aborted=!0,u=l.backlog={})}var s="nr@context",c=t("gos"),f=t(21),u={},d={},l=n.exports=o();l.backlog=u},{}],gos:[function(t,n,e){function r(t,n,e){if(o.call(t,n))return t[n];var r=e();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return t[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(t,n,e){function r(t,n,e,r){o.buffer([t],r),o.emit(t,n,e)}var o=t("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(t,n,e){function r(t){var n=typeof t;return!t||"object"!==n&&"function"!==n?-1:t===window?0:a(t,i,function(){return o++})}var o=1,i="nr@id",a=t("gos");n.exports=r},{}],loader:[function(t,n,e){function r(){if(!E++){var t=b.info=NREUM.info,n=p.getElementsByTagName("script")[0];if(setTimeout(u.abort,3e4),!(t&&t.licenseKey&&t.applicationID&&n))return u.abort();f(y,function(n,e){t[n]||(t[n]=e)}),c("mark",["onload",a()+b.offset],null,"api");var e=p.createElement("script");e.src="https://"+t.agent,n.parentNode.insertBefore(e,n)}}function o(){"complete"===p.readyState&&i()}function i(){c("mark",["domContent",a()+b.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(s=Math.max((new Date).getTime(),s))-b.offset}var s=(new Date).getTime(),c=t("handle"),f=t(21),u=t("ee"),d=t(20),l=window,p=l.document,h="addEventListener",m="attachEvent",w=l.XMLHttpRequest,v=w&&w.prototype;NREUM.o={ST:setTimeout,SI:l.setImmediate,CT:clearTimeout,XHR:w,REQ:l.Request,EV:l.Event,PR:l.Promise,MO:l.MutationObserver};var g=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1169.min.js"},x=w&&v&&v[h]&&!/CriOS/.test(navigator.userAgent),b=n.exports={offset:s,now:a,origin:g,features:{},xhrWrappable:x,userAgent:d};t(15),t(18),p[h]?(p[h]("DOMContentLoaded",i,!1),l[h]("load",r,!1)):(p[m]("onreadystatechange",o),l[m]("onload",r)),c("mark",["firstbyte",s],null,"api");var E=0,O=t(23)},{}],"wrap-function":[function(t,n,e){function r(t){return!(t&&t instanceof Function&&t.apply&&!t[a])}var o=t("ee"),i=t(22),a="nr@original",s=Object.prototype.hasOwnProperty,c=!1;n.exports=function(t,n){function e(t,n,e,o){function nrWrapper(){var r,a,s,c;try{a=this,r=i(arguments),s="function"==typeof e?e(r,a):e||{}}catch(f){l([f,"",[r,a,o],s])}u(n+"start",[r,a,o],s);try{return c=t.apply(a,r)}catch(d){throw u(n+"err",[r,a,d],s),d}finally{u(n+"end",[r,a,c],s)}}return r(t)?t:(n||(n=""),nrWrapper[a]=t,d(t,nrWrapper),nrWrapper)}function f(t,n,o,i){o||(o="");var a,s,c,f="-"===o.charAt(0);for(c=0;c<n.length;c++)s=n[c],a=t[s],r(a)||(t[s]=e(a,f?s+o:o,i,s))}function u(e,r,o){if(!c||n){var i=c;c=!0;try{t.emit(e,r,o,n)}catch(a){l([a,e,r,o])}c=i}}function d(t,n){if(Object.defineProperty&&Object.keys)try{var e=Object.keys(t);return e.forEach(function(e){Object.defineProperty(n,e,{get:function(){return t[e]},set:function(n){return t[e]=n,n}})}),n}catch(r){l([r])}for(var o in t)s.call(t,o)&&(n[o]=t[o]);return n}function l(n){try{t.emit("internal-error",n)}catch(e){}}return t||(t=o),e.inPlace=f,e.flag=a,e}},{}]},{},["loader",2,12,4,3]);</script>
+<meta name='keywords'>
+<meta content='width=device-width, user-scalable=yes, initial-scale=1' name='viewport'>
+<meta content='265353220248106' property='fb:app_id'>
+<meta content='The Most and Least Expensive Cars to Maintain | YourMechanic Advice' property='og:title'>
+<meta content='local auto-repair business' property='og:type'>
+<meta content='//d310p4tz9tc9pz.cloudfront.net/assets/referral_landing/bg1-5a52f31194d5be2f912e11b30a13a11f.jpg' name='og:image'>
+<meta content=' The most expensive thing most Americans own, after their house, is their car. On average, Americans spend 5% of their income on purchasing a car. Another 5% goes towards ongoing maintenance and insurance costs. But not every car...' name='description'>
+<meta content=' The most expensive thing most Americans own, after their house, is their car. On average, Americans spend 5% of their income on purchasing a car. Another 5% goes towards ongoing maintenance and insurance costs. But not every car...' property='og:description'>
+<link href='https://www.yourmechanic.com/article/the-most-and-least-expensive-cars-to-maintain-by-maddy-martin' rel='canonical'>
+<meta content='https://www.yourmechanic.com/article/the-most-and-least-expensive-cars-to-maintain-by-maddy-martin' property='og:url'>
+<link href='//d310p4tz9tc9pz.cloudfront.net/assets/favicons/favicon-96x96-fb83d22935213d6b161f69e7e962e686.png' rel='icon' sizes='96x96' type='image/png'>
+
+<meta content="authenticity_token" name="csrf-param" />
+<meta content="GtiPcIjYleFKeuM8fbSBOyypd8YkJIFLwi4vFDh6xnE=" name="csrf-token" />
+
+
+<script>
+  checkAndMountReact();
+</script>
+<script type="text/javascript">
+//<![CDATA[
+loadAsyncCss('//d310p4tz9tc9pz.cloudfront.net/assets/YM2/article_merchandiser-db14c6e48439c7201a7babf6de8ead01.css');
+//]]>
+</script>
+<style>
+  @charset "UTF-8";.ymccss{width:1px;height:1px}@font-face{font-family:'Montserrat';font-style:normal;font-weight:400;font-display:swap}@font-face{font-family:'Montserrat';font-style:italic;font-weight:400;font-display:swap}@font-face{font-family:'Montserrat';font-style:normal;font-weight:500;font-display:swap}@font-face{font-family:'Montserrat';font-style:normal;font-weight:600;font-display:swap}html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}body{margin:0}header,nav,section{display:block}a{background-color:transparent}strong{font-weight:bold}h1{margin:.67em 0;font-size:2em}img{border:0}svg:not(:root){overflow:hidden}button,input{margin:0;font:inherit;color:inherit}button{overflow:visible}button{text-transform:none}button{-webkit-appearance:button}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}input{line-height:normal}@font-face{font-family:'Glyphicons Halflings'}.glyphicon{position:relative;top:1px;display:inline-block;font-family:'Glyphicons Halflings';font-style:normal;font-weight:normal;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.glyphicon-chevron-left:before{content:"\e079"}.glyphicon-chevron-right:before{content:"\e080"}*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}*:before,*:after{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}html{font-size:10px}body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.42857143;color:#333;background-color:#fff}input,button{font-family:inherit;font-size:inherit;line-height:inherit}a{color:#337ab7;text-decoration:none}img{vertical-align:middle}h1,h2,h3,h4{font-family:inherit;font-weight:500;line-height:1.1;color:inherit}h1,h2,h3{margin-top:20px;margin-bottom:10px}h4{margin-top:10px;margin-bottom:10px}h1{font-size:36px}h2{font-size:30px}h3{font-size:24px}h4{font-size:18px}p{margin:0 0 10px}.text-left{text-align:left}.text-right{text-align:right}.text-center{text-align:center}ul{margin-top:0;margin-bottom:10px}ul ul{margin-bottom:0}.container{padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}@media(min-width:768px){.container{max-width:750px}}@media(min-width:992px){.container{max-width:970px}}@media(min-width:1200px){.container{max-width:1170px}}.container-fluid{padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}.row{margin-right:-15px;margin-left:-15px}.col-sm-4,.col-md-4,.col-md-8,.col-xs-12{position:relative;min-height:1px;padding-right:15px;padding-left:15px}.col-xs-12{float:left}.col-xs-12{width:100%}@media(min-width:768px){.col-sm-4{float:left}.col-sm-4{width:33.33333333%}}@media(min-width:992px){.col-md-4,.col-md-8{float:left}.col-md-8{width:66.66666667%}.col-md-4{width:33.33333333%}}.container:before,.container:after,.container-fluid:before,.container-fluid:after,.row:before,.row:after{display:table;content:" "}.container:after,.container-fluid:after,.row:after{clear:both}.pull-right{float:right !important}.pull-left{float:left !important}.hidden{display:none !important;visibility:hidden !important}@-ms-viewport{width:device-width}.visible-xs{display:none !important}@media(max-width:767px){.visible-xs{display:block !important}}@media(max-width:767px){.hidden-xs{display:none !important}}@media(min-width:768px) and (max-width:991px){.hidden-sm{display:none !important}}@media(min-width:992px) and (max-width:1199px){.hidden-md{display:none !important}}@media(min-width:1200px){.hidden-lg{display:none !important}}.qna-box{display:block;background-color:white;width:100%;border-radius:3px;overflow:hidden;margin-bottom:10px;z-index:99;border:1px solid #e7ebeb}.rating{fill:#bebebe}.rating-50 .stars-1f,.rating-50 .stars-2f,.rating-50 .stars-3f,.rating-50 .stars-4f,.rating-50 .stars-5f{fill:#1e7be2}.rating-10 .stars-0h,.rating-20 .stars-0h,.rating-20 .stars-1h,.rating-30 .stars-0h,.rating-30 .stars-1h,.rating-30 .stars-2h,.rating-40 .stars-0h,.rating-40 .stars-1h,.rating-40 .stars-2h,.rating-40 .stars-3h,.rating-50 .stars-0h,.rating-50 .stars-1h,.rating-50 .stars-2h,.rating-50 .stars-3h,.rating-50 .stars-4h{display:none}.button{background:transparent;border:0;border-radius:4px;display:inline-block;font-size:14px;font-weight:600;letter-spacing:1px;line-height:16px;overflow:hidden;padding:17px;text-align:center;text-transform:uppercase;vertical-align:middle}@media screen and (max-width:767px){.button{display:block;min-width:initial;width:100%}}@font-face{font-family:"qna-icons";font-weight:normal;font-style:normal}[class^="qna-icon-"]{display:inline-block}[class^="qna-icon-"]:before{font-family:"qna-icons" !important;font-style:normal !important;font-weight:normal !important;font-variant:normal !important;text-transform:none !important;speak:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.text-right{text-align:right}.text-left{text-align:left}.text-center{text-align:center}.spacet-10{margin-top:10px}.spaceb-5{margin-bottom:5px}.spaceb-15{margin-bottom:15px}.spaceb-20{margin-bottom:20px}.spaceb-30{margin-bottom:30px}.spacer-5{margin-right:5px}.spacer-10{margin-right:10px}.padding-5{padding:5px}.paddingt-6{padding-top:6px}html{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;font-smoothing:antialiased;font-weight:400}@-moz-document url-prefix(){body{font-weight:lighter !important}}body{font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-style:normal;font-weight:400;margin:0;-webkit-font-smoothing:antialiased;color:#6d7579}h1,h2,h3,h4{margin-top:0;margin-bottom:0}h2,h3,h4{line-height:150%}h1{font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-weight:400;font-size:2.2em;color:#4a5155;margin:0 0 15px 0}h2{font-size:1.6em;font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-weight:400;color:#4a5155}h3{font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-weight:400;font-size:1.2em;margin:0}h4{font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-style:normal;font-weight:600;font-size:1.1em}p{font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-weight:400;font-size:16px;line-height:150%;color:#6d7579;margin:0}a{color:#1e7be2;text-decoration:none}a:link{text-decoration:none !important}@media only screen and (max-width:992px){h1{font-size:2em}p{font-size:16px}}@media only screen and (max-width:767px){h1{font-size:1.414em;font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-style:normal;font-weight:600}h3{font-size:16px}p{font-size:16px}}.nav-container{position:fixed;top:0;left:0;width:100%;z-index:1000}.mobile{overflow:hidden}.main-header{position:relative;padding:15px 0;width:100%}.ym-logo{float:left;margin-right:16px;margin-top:9px;position:relative;top:0}.ym-logo__image{display:block;height:28px;width:auto}@media only screen and (max-width:375px){.ym-logo__image{height:24px}}@media only screen and (max-width:320px){.ym-logo__image{height:21px}}.menu{z-index:999}.menu a{text-decoration:none}@media only screen and (max-width:994px){.menu .menu__item{border-top:solid 1px #424556;padding:0 25px 0 25px}.menu .menu__item:last-child{border-bottom:solid 1px #424556}.menu .menu__item--sub{padding:0 5px 0 35px}}.menu .menu__item--goback{padding-left:10px}.menu .menu__item--goback .menu__link{color:#979eb5}.mobile_menu{display:none}.menu__list{list-style:none;margin:0;padding:0}.menu__list::after{clear:both;content:"";display:table}.menu__item{z-index:2}.menu__link,.menu__sublink{color:white}.menu__link i{display:none}.menu__subitem{margin:0;padding:0}.quote-btn{background-color:#1e7be2;color:white;display:inline-block;text-align:center;text-decoration:none;text-transform:uppercase}.toggle-menu{background:0;border:0;display:none;float:right;margin-top:8px;width:25px}.toggle-menu span{background:white;border-radius:1px;display:block;height:3px;margin:3px 0}.toggle-menu--white span{background:#363946}.phone-info .phone-info__left,.phone-info .phone-info__right{display:inline-block;vertical-align:top}.phone-info .phone-info__left{margin-right:10px}.phone-info .phone-info__right{padding-top:7px;margin-right:20px}.phone-info .note-text{font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-weight:400;color:white;font:400 13px/15px "Montserrat","Helvetica Neue",Helvetica,Arial,sans-serif}.phone-info .call-number{font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-style:normal;font-weight:600;color:white;font:600 20px "Montserrat","Helvetica Neue",Helvetica,Arial,sans-serif}@media screen and (max-width:767px){.phone-info .call-number{font-size:18px}}@media screen and (max-width:320px){.phone-info .call-number{font-size:13px}}.phone-info .bold-text{font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-style:normal;font-weight:600;color:white;font:600 13px/15px "Montserrat","Helvetica Neue",Helvetica,Arial,sans-serif}@media only screen and (max-width:994px){.nav-bar{background:#363946;height:100%;left:100%;opacity:0;overflow-y:auto;overflow-x:hidden;padding:30px 0 30px 0;position:fixed;top:0;width:100%;z-index:1000;display:-webkit-box;display:-moz-box;display:box;display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-moz-box-orient:vertical;box-orient:vertical;-webkit-box-direction:normal;-moz-box-direction:normal;box-direction:normal;-webkit-flex-direction:column;-moz-flex-direction:column;flex-direction:column;-ms-flex-direction:column;-webkit-box-pack:justify;-moz-box-pack:justify;box-pack:justify;-webkit-justify-content:space-between;-moz-justify-content:space-between;-ms-justify-content:space-between;-o-justify-content:space-between;justify-content:space-between;-ms-flex-pack:justify}.menu__list{display:none}.mobile_menu{position:relative;left:-100%;display:none}.nav-bar__header::after{clear:both;content:"";display:table}.nav-bar__footer{text-align:center}.close-btn{background:transparent;border:0;float:right;margin-right:30px;width:auto}.close-btn img{display:block;height:23px}.menu__item{text-align:left}.nav-bar__group .nav-bar__body{margin-top:20px}.menu__link,.menu__sublink{display:inline-block;font-size:14px;line-height:56px;width:100%;font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-weight:400;font-weight:600;text-transform:uppercase}}@media only screen and (max-width:994px) and (max-width:767px){.menu__link,.menu__sublink{font-size:16px}}@media only screen and (max-width:994px){.menu__link i{display:block;line-height:51px}.menu__sublist{display:none;margin:0;padding:0}.account-buttons{text-align:center;margin-top:30px}.phone-info-box{border:solid 1px #86939e;border-radius:5px;padding:10px;width:100%;display:block}.phone-info-box p{color:white;font-size:15px;padding:2px}.phone-info-box .bold-info-text{font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-weight:400;color:white;font-size:15px;font-weight:600}.phone-info-box .phone__img{width:25px;height:25px;vertical-align:top;margin:5px 10px 0 0}.phone-info-box .phone__text{display:inline-block;vertical-align:top}.mobile-btn-container{padding:0 5px 0 5px}.quote-btn{border-radius:5px;font-size:16px;font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-style:normal;font-weight:600;min-width:290px;padding:13px 0 13px 0}.account-buttons .quote-btn{display:none}.toggle-menu{display:block}.phone-info{margin-top:9px}}@media only screen and (min-width:994px){.nav-bar{margin-left:174px}.nav-bar::after{clear:both;content:"";display:table}.nav-bar__header,.nav-bar__footer{display:none}.nav-bar__body::after{clear:both;content:"";display:table}.menu{float:left;margin-top:10px;padding-left:4px}.menu::before{background:rgba(228,228,228,0.1);content:'';bottom:3px;left:0;position:absolute;top:3px;width:1px}.menu__item{float:left}.menu__link{display:block;font:600 14px/15px "Montserrat","Helvetica Neue",Helvetica,Arial,sans-serif;font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-style:normal;font-weight:600;padding:6px 10px;text-transform:uppercase}.menu__dropdown .menu__link::after{content:'';display:inline-block;margin-left:2px;margin-top:5px;vertical-align:top;border-left:4px solid transparent;border-right:4px solid transparent;border-top:4px solid white}.menu__sublist{background:#363946;display:block;max-height:0;padding:0;left:0;list-style:none;min-width:calc(100% + 5px);position:absolute;top:0;overflow:hidden;opacity:0;z-index:-1}.menu__sublink{color:#fff;display:block;font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-style:normal;font-weight:600;font:400 14px/15px "Montserrat","Helvetica Neue",Helvetica,Arial,sans-serif;padding:12px 20px}.menu__sublink .menu__sublink--header{letter-spacing:1px;font-weight:600;text-transform:uppercase;margin-bottom:5px}.menu__sublink .menu__sublink--subheader{opacity:.7}.account-buttons{float:right}.left-bar{border-left:1px solid #434651;padding-left:20px}.quote-btn{border-radius:23px;display:inline-block;font-size:15px;font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-style:normal;font-weight:600;min-width:167px;padding:12px}}.nav-bar__white{color:gray}.nav-bar__white .menu__link,.nav-bar__white .menu__sublink{color:gray}.nav-bar__white .menu__link:after{border-top:4px solid gray}.nav-bar__white .quote-btn{color:white}.nav-bar__white .menu__sublist{background-color:white}@media only screen and (min-width:994px){.nav-bar__white .menu__sublist{-webkit-box-shadow:0 1px 5px 0 rgba(0,0,0,0.3);-moz-box-shadow:0 1px 5px 0 rgba(0,0,0,0.3);box-shadow:0 1px 5px 0 rgba(0,0,0,0.3)}.nav-bar__white .menu__sublink{border:1px solid transparent;border-radius:4px}.nav-bar__white .menu__sublink .menu__sublink--subheader{opacity:1}}.qna-article.merchandising{padding-bottom:15px}@media(min-width:768px){.qna-article.merchandising{padding-top:75px}}.qna-article.merchandising .article__img__wrapped{z-index:-1}.qna-article.merchandising .qna-article__meta{color:#373d51;font-size:14px}.qna-article.merchandising .qna-article__meta strong{font-weight:400}.qna-section{padding-top:65px;padding-bottom:65px}.qna-section p{color:#373d51;font:16px/25px "Montserrat",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;margin:0 0 25px}@media screen and (max-width:767px){.qna-section p{font-size:16px;line-height:20px;margin-bottom:15px}}.qna-section+.qna-section{border-top:1px solid #e2e2e2}@media screen and (max-width:767px){.qna-section{padding-bottom:25px;padding-top:0}}.qna-section--bg-white{background-color:white}.qna-section__heading{font-size:30px;color:#373d51;font-family:"Montserrat",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;font-style:normal;font-weight:600;margin-top:15px}@media screen and (max-width:767px){.qna-section__heading{font-size:22px;line-height:24px}}.qna-section--meta-summary{font-size:22px;color:#6d7579;margin-bottom:5px;font-weight:500}@media screen and (max-width:767px){.qna-section--meta-summary{font-size:18px}}.mobile-articles.qna-section{border:none !important;padding-bottom:0}.mobile-articles h3{margin-top:30px}.mobile-articles .qna-box__body{padding:20px}.mobile-articles .qna-box__content{color:#373d51;font-size:16px;line-height:140%;margin:10px 0 15px 0}.mobile-articles .qna-box__footer{border-top:1px solid #e7ebeb;display:-webkit-box;display:-moz-box;display:box;display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-moz-box-align:center;box-align:center;-webkit-align-items:center;-moz-align-items:center;-ms-align-items:center;-o-align-items:center;align-items:center;-ms-flex-align:center;-webkit-box-pack:center;-moz-box-pack:center;box-pack:center;-webkit-justify-content:center;-moz-justify-content:center;-ms-justify-content:center;-o-justify-content:center;justify-content:center;-ms-flex-pack:center}.mobile-articles .qna-box__footer .qna-box__more-btn{padding:20px 0 0 0}.mobile-articles .qna-box__footer .qna-box__more-btn i{display:none}.qna-btn{display:inline-block;text-align:center;text-transform:uppercase}@media screen and (max-width:767px){.qna-btn{display:block;min-width:0;width:100%}}.qna-btn--primary{border-radius:45px;background-color:#1e7be2;color:white;font-weight:600;font-size:16px;height:52px;letter-spacing:1px;min-width:306px;padding:14px}@media screen and (max-width:767px){.qna-btn--primary{min-width:0}}.qna-btn--primary.gray__border{border:1px solid #e7ebeb;color:#1e7be2;background-color:transparent}.qna-btn--borderradius-5{border-radius:5px}.qna-btn--bg-white{background-color:white;color:#1e7be2}.qna-btn--block{display:block;min-width:0;width:100%}.qna-box{margin-bottom:15px;position:relative}.qna-box__image{background-position:center center;background-repeat:no-repeat;background-size:cover}.qna-box--card .qna-box__image{display:block;height:193px}.qna-box__body{background:white;padding:25px}@media screen and (max-width:767px){.qna-box__body{padding:15px}}.qna-box--card .qna-box__image+.qna-box__body{border-top:0}.qna-box__heading{color:#373d51;font:600 normal 16px/24px "Montserrat",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;margin:0}@media screen and (max-width:767px){.qna-box__heading{font-size:16px;line-height:22px}}.qna-box__content{color:#6d7579;line-height:150%;font:400 normal 14px/20px "Montserrat",Avenir,"Helvetica-Neue","Helvetica","Arial",sans-serif;margin:5px 0 25px 0}@media screen and (max-width:767px){.qna-box__content{font-size:14px;line-height:15px;margin:15px 0}}.qna-box--card .qna-box__content{margin:10px 0}.qna-box__footer::after{clear:both;content:"";display:table}.qna-box__more-btn{color:#1e7be2;float:right;font-weight:600;font-size:16px;text-transform:uppercase}.qna-box__more-btn .qna-icon-right-arrow{transform:rotate(-45deg);-webkit-transform:rotate(-45deg);border:solid #1e7be2;border-width:0 2px 2px 0;display:inline-block;padding:3px;margin-left:3px;margin-bottom:1px}.qna-sticky-box-wrapper{display:block;height:100%;position:relative}.qna-sticky-box{background:white;padding:28px;z-index:1}.qna-sticky-box p{color:#363946;font-size:16px;line-height:22px;margin-bottom:20px}@media screen and (max-width:767px){.qna-sticky-box p{font-size:14px;line-height:20px}}.qna-sticky-box__aboutym{padding-left:25px;padding-right:25px;background-color:transparent;border:1px solid #e7ebeb;border-radius:4px}.qna-sticky-box__aboutym p{font-size:16px;color:#363946;line-height:165%}.qna-sticky-box__heading{color:#363946;font-size:22px;font-weight:600;line-height:26px;margin:0 0 15px}@media screen and (max-width:767px){.qna-sticky-box__heading{font-size:18px;line-height:22px}}.qna-sticky-box__sub-heading{color:#363946;font-size:16px;font-weight:600;margin:0 0 5px 0}.qna-article{border-bottom:1px solid #e7ebeb}.qna-article__meta{color:#8a8f9a;font-size:15px;margin-bottom:20px}.qna-article__meta div{display:inline-block}.qna-article__meta strong{font-weight:600}@media screen and (max-width:767px){.qna-article__meta{font-size:12px;line-height:14px;margin-bottom:15px}}.qna-article__image{display:block;max-width:100%}.qna-article__content p{color:#373d51;font-size:16px;line-height:27px;margin-bottom:30px;line-height:150%}@media screen and (max-width:767px){.qna-article__content p{font-size:16px;line-height:22px;margin-bottom:20px;line-height:150%}}@media screen and (min-width:992px){.qna-seo-height-constraint{min-height:500px}}.qna-article__content.article__img__wrapped{overflow:hidden;position:relative;display:block;float:right;width:365px;margin:0 0 20px 20px}@media(max-width:767px){.qna-article__content.article__img__wrapped{float:none;width:auto;margin:0}}@media(min-width:768px){.qna-article__content.article__img__wrapped.mobile-only{display:none}}@media(max-width:767px){.qna-article__content.article__img__wrapped.desktop-only{display:none}}.qna-about__trust__icon{margin-bottom:20px;width:100%;text-align:center}.qna-about__trust__icon img{width:100px}
+</style>
+<script>
+  window.cache_res = [];
+</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M23SZP2"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- / Hydrate the shared redux store -->
+<div data-rails-context="{&quot;inMailer&quot;:false,&quot;i18nLocale&quot;:&quot;en&quot;,&quot;i18nDefaultLocale&quot;:&quot;en&quot;,&quot;href&quot;:&quot;http://www.example.com/article/the-most-and-least-expensive-cars-to-maintain-by-maddy-martin&quot;,&quot;location&quot;:&quot;/article/the-most-and-least-expensive-cars-to-maintain-by-maddy-martin&quot;,&quot;scheme&quot;:&quot;http&quot;,&quot;host&quot;:&quot;www.example.com&quot;,&quot;port&quot;:null,&quot;pathname&quot;:&quot;/article/the-most-and-least-expensive-cars-to-maintain-by-maddy-martin&quot;,&quot;search&quot;:null,&quot;httpAcceptLanguage&quot;:null,&quot;serverSide&quot;:false}" id="js-react-on-rails-context" style="display:none"></div>
+<div class="js-react-on-rails-store" data-props="{&quot;navigation&quot;:{&quot;pageNavType&quot;:null,&quot;user&quot;:{},&quot;scrollHeader&quot;:15,&quot;links&quot;:[],&quot;noShowUserLinks&quot;:false,&quot;showWarrantyArticle&quot;:true,&quot;mobileCallButton&quot;:true},&quot;bookmark&quot;:{&quot;url_parameter&quot;:&quot;the-most-and-least-expensive-cars-to-maintain-by-maddy-martin&quot;}}" data-store-name="adviceStore" style="display:none"></div>
+<div class="js-react-on-rails-store" data-props="{&quot;bookEngineState&quot;:{&quot;quote&quot;:{&quot;jobs&quot;:[{&quot;id&quot;:396,&quot;description&quot;:&quot;Pre-purchase Car Inspection&quot;}]}},&quot;serviceMerchandiserUI&quot;:{&quot;heading&quot;:&quot;Schedule Pre-purchase Car Inspection&quot;,&quot;isDiagnosticJob&quot;:false,&quot;costRangeMin&quot;:9900,&quot;costRangeMax&quot;:9900,&quot;serviceRating&quot;:4.9,&quot;totalRatings&quot;:4557,&quot;benefits&quot;:[{&quot;title&quot;:&quot;Book Online 24/7&quot;},{&quot;title&quot;:&quot;Top-rated Mobile Mechanics&quot;},{&quot;title&quot;:&quot;On-site Inspections&quot;},{&quot;title&quot;:&quot;Get an Instant Report&quot;}],&quot;notFixedOnMobile&quot;:true,&quot;jobTitle&quot;:&quot;&quot;,&quot;cityName&quot;:&quot;&quot;}}" data-store-name="serviceMerchandiserStore" style="display:none"></div>
+<!-- / Mount the navigation component -->
+      <div class="js-react-on-rails-component" data-component-name="ServiceMerchandiserNavBar" data-dom-id="ServiceMerchandiserNavBar-react-component-cd94e554-5f72-4caa-b17b-2458cbd50a1e" data-props="{}" data-trace="true" style="display: none"></div>
+      <div id="ServiceMerchandiserNavBar-react-component-cd94e554-5f72-4caa-b17b-2458cbd50a1e"><div class=""><div class="nav-container not__fixed__mobile"><header class="main-header"><div class="toggle-menu pull-left toggle-menu--white"><span></span><span></span><span></span></div><div class="container-fluid"><a class="centered-logo ym-logo" href="/"><div><img src="//d310p4tz9tc9pz.cloudfront.net/assets/webpack/logo_red-4e3163c8a8a97cce7da2016c70f144d1.svg" class="ym-logo__image" alt="logo"/></div></a><div class="nav-bar"><div class="nav-bar__group"><div class="nav-bar__header"><img style="float:left;margin-left:20px" src="//d310p4tz9tc9pz.cloudfront.net/assets/webpack/logo_white-7bc4172487ad2809c1a4454948662e0a.svg" class="ym-logo__image" alt="logo"/><button class="close-btn"><img height="23" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE4AAABOCAYAAACOqiAdAAAABGdBTUEAALGPC/xhBQAAAzVJREFUeAHl3DuLFEEQwPFdUU4D8SMcKAaewWVqImKkIAiCn8DM7BAD9QRNDP0kJiIomBgYGRudIJgJYiB4qPjA9V9i7TmzvfPa6Zmu6oait3u6j6nfzuOOmevJpFRms9lUotSdZROHfcsSn29g0CbxnIGfiM98fkGcXjbRaz85rxOPiI/k+IX6FXEpmK9sIH4Q5fKLjq3gJIed5HqB2C0j/GvfKqRM52Hi/ZLB2n2jMMlhg0QF7ZsmHKjlwDo5T53GxcCgUJdbPJKtQ1OPOwon17hj2qipHzLbHZ6gkfdj4mBN/rJ5biVwOw0m6BBXeC3RxOCNQkyYfIh4S7Qp5o88km16eqqL3GGPzuHkAx1nidBdVSeFarN4JNMWTfK/XkDTBhsuE+7xyLEL2rY6BWvveFHQVNIrXlQ0r3iDoHnDGxTNC94oaNbxRkWzipcEmjW8pNCs4CWJljpe0mip4plASw3PFFoqeCbRxsYzjTYWngu0ofFcoQ2F5xItNp5rtFh4WaD1jZcVWl94WaKtipc12op4bR9VVj/C052xVnMEdXluy7RGxSeafskQxMDzjRYJLw+0nvHyQusJL0+0//Ducd373ejyvzfomc7Pssahy1tDymf2FbOVvuwV0fLE6wktL7ye0fLAi4TmG68jmvxXT5vi64ZB5l3untvM6/LnmQ+8rmh6y84Sb1W0LPH6QssKr2+0LPBiobnGi43mEm8oNFd4Q6O5wBsLzTTe2Ggm8VJBM4WXGpoJvFTRksZLHS1JPCtoSeFZQ0sCzyraqHjW0UbB84I2KJ43tEHwvKJFxfOOFgUPtDNE1aJzbF4oZl+1IpMujx6vKf7fmh+yRuwssFR3mEXT5EmvLZ4sAbmu82Ulr/PVRgtbzaNp8mTWFu+mzpWF9za00aC+O51OHzQYZ2IIuTxhR68SPxvu8AkdJ3DvtFFTu0LTXFvi7VlxuB4hPiyckMUON6engpVr0q07beUloM3CPDquEKG3g+T93NuFwY4b5Cp4X4lQuR9MnZGniJeE/FrynZAVl88FBzvuJOfjxFNCVt+Wg+k1IdfB6sKg/cSB6lH+t2Iga76v+c904Az/AKOPqmLm+CkKAAAAAElFTkSuQmCC" alt="close"/></button></div><div class="nav-bar__body nav-bar__white"><nav class="menu"><ul class="menu__list"><li class="menu__item"><a class="menu__link" href="/request-service-online" title="How it works"> <!-- -->How it works<!-- --> </a></li><li class="menu__item"><a class="menu__link" href="/services" title="Services"> <!-- -->Services<!-- --> </a></li><li class="menu__item"><a class="menu__link" href="/pricing" title="Pricing"> <!-- -->Pricing<!-- --> </a></li><li class="menu__item menu__dropdown"><a title="Advice" class="menu__link">Advice</a><ul class="menu__sublist"><div class="container"><div class="row"><div class="col-sm-4"><li class="menu__subitem"><a class="menu__sublink" href="/advice" title="Articles &amp; Questions"><div class="menu__sublink--header">Articles &amp; Questions</div><div class="menu__sublink--subheader">Over 25,000 topics, from beginner tips to technical guides</div></a></li><li class="menu__subitem"><a class="menu__sublink" href="/cars" title="Cars"><div class="menu__sublink--header">Cars</div><div class="menu__sublink--subheader">Check cars for recalls, common issues &amp; maintenance costs</div></a></li></div><div class="col-sm-4"><li class="menu__subitem"><a class="menu__sublink" href="/scheduled-maintenance" title="Scheduled maintenance"><div class="menu__sublink--header">Scheduled maintenance</div><div class="menu__sublink--subheader">View your car’s maintenance schedule</div></a></li></div><div class="col-sm-4"><li class="menu__subitem"><a class="menu__sublink" href="/estimates" title="Estimates"><div class="menu__sublink--header">Estimates</div><div class="menu__sublink--subheader">Instant auto repair estimates</div></a></li></div></div></div></ul></li><li class="menu__item menu__dropdown"><a title="More" class="menu__link">More</a><ul class="menu__sublist"><div class="container"><div class="row"><div class="col-sm-4"><li class="menu__subitem"><a class="menu__sublink" href="/pro" title="About our mechanics"><div class="menu__sublink--header">About our mechanics</div><div class="menu__sublink--subheader">Hand-picked, community-rated professionals</div></a></li><li class="menu__subitem"><a class="menu__sublink" href="/city" title="Cities"><div class="menu__sublink--header">Cities</div><div class="menu__sublink--subheader">Our mechanics make house calls in over 2,000 cities</div></a></li><li class="menu__subitem"><a class="menu__sublink" href="/gift" title="Gift Cards"><div class="menu__sublink--header">Gift Cards</div><div class="menu__sublink--subheader">Gift convenient car repair</div></a></li></div><div class="col-sm-4"><li class="menu__subitem"><a class="menu__sublink" href="/apply" title="Become a mechanic"><div class="menu__sublink--header">Become a mechanic</div><div class="menu__sublink--subheader">Explore nationwide job opportunities for automotive technicians</div></a></li><li class="menu__subitem"><a class="menu__sublink" href="/support" title="Contact"><div class="menu__sublink--header">Contact</div><div class="menu__sublink--subheader">Reach us by phone or email, or read FAQ</div></a></li><li class="menu__subitem"><a class="menu__sublink" href="/careers" title="Careers"><div class="menu__sublink--header">Careers</div><div class="menu__sublink--subheader">Explore careers at YourMechanic</div></a></li></div><div class="col-sm-4"><li class="menu__subitem"><a class="menu__sublink" href="/reviews" title="Reviews"><div class="menu__sublink--header">Reviews</div><div class="menu__sublink--subheader">Trusted mechanics, rated by thousands of happy car owners</div></a></li><li class="menu__subitem"><a class="menu__sublink" href="/fleet/register" title="Fleet Maintenance"><div class="menu__sublink--header">Fleet Maintenance</div><div class="menu__sublink--subheader">Fleet maintenance with certified mobile mechanics</div></a></li></div></div></div></ul></li></ul><ul class="menu__list mobile_menu"><li class="menu__item"><a class="menu__link" href="/request-service-online" title="How it works"> <!-- -->How it works<!-- --> </a></li><li class="menu__item"><a class="menu__link" href="/services" title="Services"> <!-- -->Services<!-- --> </a></li><li class="menu__item"><a class="menu__link" href="/pricing" title="Pricing"> <!-- -->Pricing<!-- --> </a></li><li class="menu__item"><a title="Advice" class="menu__link">Advice<i class="pull-right glyphicon glyphicon-chevron-right"></i></a></li><li class="menu__item"><a title="More" class="menu__link">More<i class="pull-right glyphicon glyphicon-chevron-right"></i></a></li></ul><ul class="menu__list mobile_menu"><li class="menu__item menu__item--goback menu__item--sub"><a class="menu__link" title="Advice"><i class="pull-left glyphicon glyphicon-chevron-left spacer-10"></i>Advice</a></li><li class="menu__item submenu__item"><a class="menu__link" href="/advice" title="Articles &amp; Questions"> <!-- -->Articles &amp; Questions<!-- --> </a></li><li class="menu__item submenu__item"><a class="menu__link" href="/scheduled-maintenance" title="Scheduled maintenance"> <!-- -->Scheduled maintenance<!-- --> </a></li><li class="menu__item submenu__item"><a class="menu__link" href="/estimates" title="Estimates"> <!-- -->Estimates<!-- --> </a></li><li class="menu__item submenu__item"><a class="menu__link" href="/cars" title="Cars"> <!-- -->Cars<!-- --> </a></li></ul><ul class="menu__list mobile_menu"><li class="menu__item menu__item--goback menu__item--sub"><a class="menu__link" title="More"><i class="pull-left glyphicon glyphicon-chevron-left spacer-10"></i>More</a></li><li class="menu__item submenu__item"><a class="menu__link" href="/pro" title="About our mechanics"> <!-- -->About our mechanics<!-- --> </a></li><li class="menu__item submenu__item"><a class="menu__link" href="/apply" title="Become a mechanic"> <!-- -->Become a mechanic<!-- --> </a></li><li class="menu__item submenu__item"><a class="menu__link" href="/reviews" title="Reviews"> <!-- -->Reviews<!-- --> </a></li><li class="menu__item submenu__item"><a class="menu__link" href="/city" title="Cities"> <!-- -->Cities<!-- --> </a></li><li class="menu__item submenu__item"><a class="menu__link" href="/support" title="Contact"> <!-- -->Contact<!-- --> </a></li><li class="menu__item submenu__item"><a class="menu__link" href="/fleet/register" title="Fleet Maintenance"> <!-- -->Fleet Maintenance<!-- --> </a></li><li class="menu__item submenu__item"><a class="menu__link" href="/gift" title="Gift Cards"> <!-- -->Gift Cards<!-- --> </a></li><li class="menu__item submenu__item"><a class="menu__link" href="/careers" title="Careers"> <!-- -->Careers<!-- --> </a></li></ul></nav><div class="account-buttons left-bar"><a class="quote-btn" href="/book?mktg_jid=396&amp;mktg_opt_conf=true" title="Get a quote">GET A QUOTE</a></div><div class="pull-right search__btn__container__d" title="Search"><div class="nav__search__icon--m"></div><div class="nav__search__string">Search</div></div><div class="phone-info pull-right hidden"><div class="phone-info__left paddingt-6 text-right"><p class="bold-text">Need help?</p><p class="note-text">Call us: </p></div><div class="phone-info__right"><img src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjAiIHk9IjAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlPi5zdDB7ZmlsbDojMzYzOTQ2fTwvc3R5bGU+PGcgaWQ9IlBhZ2UtMSI+PGcgaWQ9Ik5hdmJhci1Nb2JpbGUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yOCAtNDcxKSI+PGcgaWQ9Ikdyb3VwLTEwIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCA0NTQpIj48ZyBpZD0iaWNvbi1waG9uZS1saWdodCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTQgMTcpIj48cGF0aCBpZD0iU2hhcGUiIGNsYXNzPSJzdDAiIGQ9Ik0xNi4zIDE0LjNMMTMgMTcuNiA2LjQgMTFsMy4zLTMuM2MuNC0uNC40LTEgMC0xLjRsLTUtNWMtLjQtLjQtMS0uNC0xLjQgMEwwIDQuNkMwIDE1LjcgOC4zIDI0IDE5LjQgMjRsMy4zLTMuM2MuNC0uNC40LTEgMC0xLjRsLTUtNWMtLjQtLjQtMS0uNC0xLjQgMHoiLz48cGF0aCBpZD0iU2hhcGVfMV8iIGNsYXNzPSJzdDAiIGQ9Ik0yNCAxMGgtMmMwLTQuNC0zLjYtOC04LThWMGM1LjUgMCAxMCA0LjUgMTAgMTB6Ii8+PHBhdGggaWQ9IlNoYXBlXzJfIiBjbGFzcz0ic3QwIiBkPSJNMjAgMTBoLTJjMC0yLjItMS44LTQtNC00VjRjMy4zIDAgNiAyLjcgNiA2eiIvPjwvZz48L2c+PC9nPjwvZz48L3N2Zz4=" height="15" class="spacer-5" alt="phone"/><a href="tel:8553472779" class="call-number">(855) 347-2779</a></div></div></div></div><div class="nav-bar__footer"><div class="account-buttons hidden"><div class="padding-5"><a href="tel:8553472779" class="spaceb-5 phone-info-box"><div class="text-left"><img class="phone__img " src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjAiIHk9IjAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlPi5zdDB7ZmlsbDojMzYzOTQ2fTwvc3R5bGU+PGcgaWQ9IlBhZ2UtMSI+PGcgaWQ9Ik5hdmJhci1Nb2JpbGUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yOCAtNDcxKSI+PGcgaWQ9Ikdyb3VwLTEwIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCA0NTQpIj48ZyBpZD0iaWNvbi1waG9uZS1saWdodCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTQgMTcpIj48cGF0aCBpZD0iU2hhcGUiIGNsYXNzPSJzdDAiIGQ9Ik0xNi4zIDE0LjNMMTMgMTcuNiA2LjQgMTFsMy4zLTMuM2MuNC0uNC40LTEgMC0xLjRsLTUtNWMtLjQtLjQtMS0uNC0xLjQgMEwwIDQuNkMwIDE1LjcgOC4zIDI0IDE5LjQgMjRsMy4zLTMuM2MuNC0uNC40LTEgMC0xLjRsLTUtNWMtLjQtLjQtMS0uNC0xLjQgMHoiLz48cGF0aCBpZD0iU2hhcGVfMV8iIGNsYXNzPSJzdDAiIGQ9Ik0yNCAxMGgtMmMwLTQuNC0zLjYtOC04LThWMGM1LjUgMCAxMCA0LjUgMTAgMTB6Ii8+PHBhdGggaWQ9IlNoYXBlXzJfIiBjbGFzcz0ic3QwIiBkPSJNMjAgMTBoLTJjMC0yLjItMS44LTQtNC00VjRjMy4zIDAgNiAyLjcgNiA2eiIvPjwvZz48L2c+PC9nPjwvZz48L3N2Zz4=" alt="Phone"/><div class="phone__text"><p class="bold-info-text">Need help?</p><div style="color:white">Call us: <span class="bold-info-text">(855) 347-2779</span></div></div></div></a></div><div class="mobile-btn-container spacet-10"><a class="quote-btn" style="display:block" href="/book?mktg_jid=396&amp;mktg_opt_conf=true" title="Get a quote">GET A QUOTE</a></div></div></div></div><div class="mobile__menu__wrapper"><div class="nav__search__icon--m"></div></div></div></header><div></div></div></div></div>
+
+<div class="js-react-on-rails-component" data-component-name="TableContentSticky" data-dom-id="TableContentSticky-react-component-676201f5-5301-45a5-94f6-28bdd4cb69d8" data-props="{}" data-trace="false" style="display:none"></div>
+    <div id="TableContentSticky-react-component-676201f5-5301-45a5-94f6-28bdd4cb69d8"></div>
+    
+
+
+<div class='bodywrapper'>
+<section class='qna-section qna-article merchandising' itemscope='' itemtype='http://schema.org/Article'>
+<div itemprop='image' itemscope='' itemtype='https://schema.org/ImageObject'>
+<meta content='https://res.cloudinary.com/yourmechanic/image/upload/dpr_auto,f_auto,q_auto/v1/article_images/The_Most_and_Least_Expensive_Cars_to_Maintain_main_image' itemprop='url'>
+<meta content='1486' itemprop='width'>
+<meta content='668' itemprop='height'>
+</div>
+<div class='container'>
+<header class='qna-article__header'>
+<h1 class='qna-section__heading qna-section__heading--normal' itemprop='headline'>
+The Most and Least Expensive Cars to Maintain
+</h1>
+<div class='qna-section--meta-summary'>
+Luxury cars, such as BMWs, are the most expensive and Toyotas are the most cost efficient. Driving style also affects car maintenance costs.
+</div>
+<div class='qna-article__meta'>
+by
+<strong itemprop='author'>
+Maddy Martin
+</strong>
+on
+<meta content='2016-06-01' itemprop='datePublished'>
+<meta itemType='https://schema.org/WebPage' itemid='http://www.example.com/article/the-most-and-least-expensive-cars-to-maintain-by-maddy-martin' itemprop='mainEntityOfPage' itemscope=''>
+<div itemprop='publisher' itemscope='' itemtype='https://schema.org/Organization'>
+<div itemprop='logo' itemscope='' itemtype='https://schema.org/ImageObject'>
+<meta content='https://www.yourmechanic.com/assets/main/logo_red.png' itemprop='url'>
+<meta content='187' itemprop='width'>
+<meta content='33' itemprop='height'>
+</div>
+<meta content='YourMechanic' itemprop='name'>
+</div>
+<meta content='2016-06-01' itemprop='dateModified'>
+<strong>
+June 01, 2016
+</strong>
+</div>
+      <div class="js-react-on-rails-component" data-component-name="TableContent" data-dom-id="TableContent-react-component-c4d7ebd6-e11f-4b48-a882-8409f233bcb3" data-props="{}" data-trace="true" style="display: none"></div>
+      <div id="TableContent-react-component-c4d7ebd6-e11f-4b48-a882-8409f233bcb3"><div data-reactroot=""></div></div>
+
+</header>
+<div class='row'>
+<div class='col-md-8 qna-seo-height-constraint' id='articleBody' itemprop='articleBody'>
+<div class='qna-article__content article__img__wrapped mobile-only'>
+<img src ='https://res.cloudinary.com/yourmechanic/image/upload/dpr_auto,f_auto,q_auto/v1/article_images/The_Most_and_Least_Expensive_Cars_to_Maintain_main_image' class ='qna-article__image'/>
+</div>
+<div class='qna-article__content article__img__wrapped desktop-only'>
+<img src ='https://res.cloudinary.com/yourmechanic/image/upload/dpr_auto,f_auto,q_auto/v1/article_images/The_Most_and_Least_Expensive_Cars_to_Maintain_main_image' class ='qna-article__image'/>
+</div>
+<div class='qna-article__content' id='article_content'>
+<p><cta title="Having car problems?" description="Our expert mechanics will figure out why." cta-text="Get a quote" cta-url="https://www.yourmechanic.com/book/?mktg_jid=321&amp;utm_campaign=custom_cta_advice" info-text="Learn More" info-url="https://www.yourmechanic.com/services/check-engine-light-is-on-inspection"></cta></p>
+
+<p>The most expensive thing most Americans own, after their house, is their car. On average, Americans spend 5% of their income on <a href="https://www.yourmechanic.com/article/how-to-budget-to-buy-a-new-car-by-elan-mcafee" title="">purchasing a car</a>. Another 5% goes towards ongoing <a href="https://www.yourmechanic.com/scheduled-maintenance" title="">maintenance</a> and <a href="https://www.yourmechanic.com/article/10-things-that-change-your-car-insurance-rates-by-alex-leanse" title="">insurance costs</a>.</p>
+
+<p>But not every car costs the same to keep it running. And different cars have varying risks of leaving their drivers suddenly immobilized. </p>
+
+<p>At YourMechanic, we have a massive dataset of the make and model of the cars we have serviced and the type of maintenance done. We decided to use our data to understand which cars break down the most and have the highest maintenance costs. We also looked into which types of maintenance are most common to certain cars. </p>
+
+<p>First, we looked at which major brands cost the most to maintain over the first 10 years of a car’s life. We grouped all years of all models by brand to compute their median cost by brand. In order to estimate annual maintenance costs, we found the amount spent on every two oil changes (as oil changes are generally done <a href="https://www.yourmechanic.com/article/when-should-i-change-my-oil" title="">every six months</a>).</p>
+
+<div align="center">
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg .tg-fwcs{font-size:13px;font-family:Arial, Helvetica, sans-serif !important;;text-align:center}
+.tg .tg-0vj8{font-weight:bold;font-family:Arial, Helvetica, sans-serif !important;;background-color:#186fce;color:#ffffff;text-align:center}
+.tg .tg-l4yu{font-weight:bold;font-size:16px;font-family:Arial, Helvetica, sans-serif !important;;background-color:#363946;color:#ffffff;text-align:center}
+.tg .tg-804w{font-family:Arial, Helvetica, sans-serif !important;;text-align:center;vertical-align:top}
+.tg .tg-431l{font-family:Arial, Helvetica, sans-serif !important;;text-align:center}
+</style>
+<table class="tg" style="margin-bottom:20px;">
+  <tr>
+    <th class="tg-l4yu" colspan="3" style="border: black solid 1px;">Which Car Brands Cost the Most to Maintain?</th>
+  </tr>
+  <tr>
+    <td class="tg-fwcs" colspan="3" style="border: black solid 1px;">Based on estimates of total car maintenance over 10 years</td>
+  </tr>
+  <tr>
+    <td class="tg-0vj8" style="border: black solid 1px;">Rank</td>
+    <td class="tg-0vj8" style="border: black solid 1px;">Car Brand</td>
+    <td class="tg-0vj8" style="border: black solid 1px;">Cost</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">1</td>
+    <td class="tg-431l">BMW</td>
+    <td class="tg-431l">$17,800</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">2</td>
+    <td class="tg-431l">Mercedes-Benz</td>
+    <td class="tg-431l">$12,900</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">3</td>
+    <td class="tg-431l">Cadillac</td>
+    <td class="tg-431l">$12,500</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">4</td>
+    <td class="tg-431l">Volvo</td>
+    <td class="tg-431l">$12,500</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">5</td>
+    <td class="tg-431l">Audi</td>
+    <td class="tg-431l">$12,400</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">6</td>
+    <td class="tg-431l">Saturn</td>
+    <td class="tg-431l">$12,400</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">7</td>
+    <td class="tg-431l">Mercury</td>
+    <td class="tg-431l">$12,000</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">8</td>
+    <td class="tg-431l">Pontiac</td>
+    <td class="tg-431l">$11,800</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">9</td>
+    <td class="tg-431l">Chrysler</td>
+    <td class="tg-431l">$10,600</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">10</td>
+    <td class="tg-431l">Dodge</td>
+    <td class="tg-431l">$10,600</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">11</td>
+    <td class="tg-431l">Acura</td>
+    <td class="tg-431l">$9,800</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">12</td>
+    <td class="tg-431l">Infiniti</td>
+    <td class="tg-431l">$9,300</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">13</td>
+    <td class="tg-431l">Ford</td>
+    <td class="tg-431l">$9,100</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">14</td>
+    <td class="tg-431l">Kia</td>
+    <td class="tg-431l">$8,800</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">15</td>
+    <td class="tg-431l">Land Rover</td>
+    <td class="tg-431l">$8,800</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">16</td>
+    <td class="tg-431l">Chevrolet</td>
+    <td class="tg-431l">$8,800</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">17</td>
+    <td class="tg-431l">Buick</td>
+    <td class="tg-431l">$8,600</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">18</td>
+    <td class="tg-431l">Jeep</td>
+    <td class="tg-431l">$8,300</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">19</td>
+    <td class="tg-431l">Subaru</td>
+    <td class="tg-431l">$8,200</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">20</td>
+    <td class="tg-431l">Hyundai</td>
+    <td class="tg-431l">$8,200</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">21</td>
+    <td class="tg-804w">GMC</td>
+    <td class="tg-804w">$7,800</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">22</td>
+    <td class="tg-804w">Volkswagen</td>
+    <td class="tg-804w">$7,800</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">23</td>
+    <td class="tg-804w">Nissan</td>
+    <td class="tg-804w">$7,600</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">24</td>
+    <td class="tg-804w">Mazda</td>
+    <td class="tg-804w">$7,500</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">25</td>
+    <td class="tg-804w">Mini</td>
+    <td class="tg-804w">$7,500</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">26</td>
+    <td class="tg-804w">Mitsubishi</td>
+    <td class="tg-804w">$7,400</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">27</td>
+    <td class="tg-804w">Honda</td>
+    <td class="tg-804w">$7,200</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">28</td>
+    <td class="tg-804w">Lexus</td>
+    <td class="tg-804w">$7,000</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">29</td>
+    <td class="tg-804w">Scion</td>
+    <td class="tg-804w">$6,400</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">30</td>
+    <td class="tg-804w">Toyota</td>
+    <td class="tg-804w">$5,500</td>
+  </tr>
+</table>
+</div>  
+  
+
+<p>Luxury imports from Germany, such as BMW and Mercedes-Benz, along with domestic luxury brand Cadillac, are the most expensive. A Toyota is about $10,000 less expensive over 10 years, just in terms of maintenance. </p>
+
+<p>Toyota is by far the most economical manufacturer. Scion and Lexus, the second and third most inexpensive brands, are both Toyota subsidiaries. Together, all three are 10% below the median cost. </p>
+
+<p>Most domestic brands, like Ford and Dodge, are in the middle of the pack. </p>
+
+<p>While luxury cars call for the most expensive maintenance, many budget vehicles rank relatively high. Kia, an entry-level brand, surprises with maintenance costs 1.3 times the median. In this case, <a href="https://www.yourmechanic.com/article/how-to-read-a-new-car-window-sticker-by-brady-klopfer" title="">sticker prices</a> don't represent maintenance costs.</p>
+
+<p>Knowing the relative maintenance costs of brands can be informative, but it’s also important to consider how car costs change with age. This chart looks at the median annual cost of maintenance across all brands. </p>
+
+<div align="center">
+<img src="https://res.cloudinary.com/yourmechanic/image/upload/dpr_auto,f_auto,q_auto/v1/article_images/Most_and_Least_3" class="qna-article__image" alt="how do car costs change with age">
+</div>
+
+<p>Maintenance costs increase as the car ages. A stable, consistent increase of $150 per year in costs exists for years 1 through 10. After that, there is a distinct jump between 11 and 12 years of age. After age 13, costs plateau around $2,000 per year. This is likely because people disown their cars if maintenance costs are higher than their cars’ worth. </p>
+
+<p>Even within brands, not all cars are created equal. How do specific models compare directly to one another? We drilled down by splitting up all cars by model to look at 10 year maintenance costs.</p>
+
+<div align="center">
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg .tg-fwcs{font-size:13px;font-family:Arial, Helvetica, sans-serif !important;;text-align:center}
+.tg .tg-0vj8{font-weight:bold;font-family:Arial, Helvetica, sans-serif !important;;background-color:#186fce;color:#ffffff;text-align:center}
+.tg .tg-l4yu{font-weight:bold;font-size:16px;font-family:Arial, Helvetica, sans-serif !important;;background-color:#363946;color:#ffffff;text-align:center}
+.tg .tg-431l{font-family:Arial, Helvetica, sans-serif !important;;text-align:center}
+</style>
+<table class="tg" style="margin-bottom:20px;">
+  <tr>
+    <th class="tg-l4yu" colspan="3" style="border: black solid 1px;">Which Car Models Cost the Most to Maintain?</th>
+  </tr>
+  <tr>
+    <td class="tg-fwcs" colspan="3">Based on total car maintenance costs over 10 years</td>
+  </tr>
+  <tr>
+    <td class="tg-0vj8" style="border: black solid 1px;">Rank</td>
+    <td class="tg-0vj8" style="border: black solid 1px;">Car Brand</td>
+    <td class="tg-0vj8" style="border: black solid 1px;">Cost</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">1</td>
+    <td class="tg-431l">Chrysler Sebring</td>
+    <td class="tg-431l">$17,100</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">2</td>
+    <td class="tg-431l">BMW 328i</td>
+    <td class="tg-431l">$15,600</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">3</td>
+    <td class="tg-431l">Nissan Murano</td>
+    <td class="tg-431l">$14,700</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">4</td>
+    <td class="tg-431l">Mercedes-Benz E350</td>
+    <td class="tg-431l">$14,700</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">5</td>
+    <td class="tg-431l">Chevrolet Cobalt</td>
+    <td class="tg-431l">$14,500</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">6</td>
+    <td class="tg-431l">Dodge Grand Caravan</td>
+    <td class="tg-431l">$14,500</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">7</td>
+    <td class="tg-431l">Dodge Ram 1500</td>
+    <td class="tg-431l">$13,300</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">8</td>
+    <td class="tg-431l">Audi A4 Quattro</td>
+    <td class="tg-431l">$12,800</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">9</td>
+    <td class="tg-431l">Mazda 6</td>
+    <td class="tg-431l">$12,700</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">10</td>
+    <td class="tg-431l">Subaru Forester</td>
+    <td class="tg-431l">$12,200</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">11</td>
+    <td class="tg-431l">Acura TL</td>
+    <td class="tg-431l">$12,100</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">12</td>
+    <td class="tg-431l">Nissan Maxima</td>
+    <td class="tg-431l">$12,000</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">13</td>
+    <td class="tg-431l">Chrysler 300</td>
+    <td class="tg-431l">$12,000</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">14</td>
+    <td class="tg-431l">Ford Mustang</td>
+    <td class="tg-431l">$11,900</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">15</td>
+    <td class="tg-431l">Audi A4</td>
+    <td class="tg-431l">$11,800</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">16</td>
+    <td class="tg-431l">Volkswagen Passat</td>
+    <td class="tg-431l">$11,600</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">17</td>
+    <td class="tg-431l">Ford Focus</td>
+    <td class="tg-431l">$11,600</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">18</td>
+    <td class="tg-431l">Chevrolet Impala</td>
+    <td class="tg-431l">$11,500</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">19</td>
+    <td class="tg-431l">Honda Pilot</td>
+    <td class="tg-431l">$11,200</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">20</td>
+    <td class="tg-431l">Mini Cooper</td>
+    <td class="tg-431l">$11,200</td>
+  </tr>
+</table>
+</div>  
+   
+
+<p>The 20 priciest car models in term of maintenance cost all require, at a minimum, a staggering $11,000 to maintain over 10 years. These estimates include expensive one-off costs, like a transmission rebuild, that skew the mean higher. </p>
+
+<p>According to our data, Chrysler's Sebring is the most expensive car to maintain, which is likely one of the reasons why Chrysler revamped it in 2010. German imports (such as BMW’s 328i and Mercedes-Benz’ E350) along with many manufacturers’ luxury or full-sized models (such as the Audi A4 Quattro) are quite expensive as well. </p>
+
+<p>Now we know which cars are money pits. So which vehicles are a thrifty, reliable choice?</p>
+
+<div align="center">
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg .tg-fwcs{font-size:13px;font-family:Arial, Helvetica, sans-serif !important;;text-align:center}
+.tg .tg-0vj8{font-weight:bold;font-family:Arial, Helvetica, sans-serif !important;;background-color:#186fce;color:#ffffff;text-align:center}
+.tg .tg-l4yu{font-weight:bold;font-size:16px;font-family:Arial, Helvetica, sans-serif !important;;background-color:#363946;color:#ffffff;text-align:center}
+.tg .tg-431l{font-family:Arial, Helvetica, sans-serif !important;;text-align:center}
+</style>
+<table class="tg" style="margin-bottom:20px;">
+  <tr>
+    <th class="tg-l4yu" colspan="3" style="border: black solid 1px;">Which Car Models Have the Lowest Maintenance Cost?</th>
+  </tr>
+  <tr>
+    <td class="tg-fwcs" colspan="3">Based on total car maintenance costs over 10 years</td>
+  </tr>
+  <tr>
+    <td class="tg-0vj8" style="border: black solid 1px;">Rank</td>
+    <td class="tg-0vj8" style="border: black solid 1px;">Car Brand</td>
+    <td class="tg-0vj8" style="border: black solid 1px;">Cost</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">1</td>
+    <td class="tg-431l">Toyota Prius</td>
+    <td class="tg-431l">$4,300</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">2</td>
+    <td class="tg-431l">Kia Soul</td>
+    <td class="tg-431l">$4,700</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">3</td>
+    <td class="tg-431l">Toyota Camry</td>
+    <td class="tg-431l">$5,200</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">4</td>
+    <td class="tg-431l">Honda Fit</td>
+    <td class="tg-431l">$5,500</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">5</td>
+    <td class="tg-431l">Toyota Tacoma</td>
+    <td class="tg-431l">$5,800</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">6</td>
+    <td class="tg-431l">Toyota Corolla</td>
+    <td class="tg-431l">$5,800</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">7</td>
+    <td class="tg-431l">Nissan Versa</td>
+    <td class="tg-431l">$5,900</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">8</td>
+    <td class="tg-431l">Toyota Yaris</td>
+    <td class="tg-431l">$6,100</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">9</td>
+    <td class="tg-431l">Scion xB</td>
+    <td class="tg-431l">$6,300</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">10</td>
+    <td class="tg-431l">Kia Optima</td>
+    <td class="tg-431l">$6,400</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">11</td>
+    <td class="tg-431l">Lexus IS250</td>
+    <td class="tg-431l">$6,500</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">12</td>
+    <td class="tg-431l">Nissan Rogue</td>
+    <td class="tg-431l">$6,500</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">13</td>
+    <td class="tg-431l">Toyota Highlander</td>
+    <td class="tg-431l">$6,600</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">14</td>
+    <td class="tg-431l">Honda Civic</td>
+    <td class="tg-431l">$6,600</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">15</td>
+    <td class="tg-431l">Honda Accord</td>
+    <td class="tg-431l">$6,600</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">16</td>
+    <td class="tg-431l">Volkswagen Jetta</td>
+    <td class="tg-431l">$6,800</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">17</td>
+    <td class="tg-431l">Lexus RX350</td>
+    <td class="tg-431l">$6,900</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">18</td>
+    <td class="tg-431l">Ford Fusion</td>
+    <td class="tg-431l">$7,000</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">19</td>
+    <td class="tg-431l">Nissan Sentra</td>
+    <td class="tg-431l">$7,200</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">20</td>
+    <td class="tg-431l">Subaru Impreza</td>
+    <td class="tg-431l">$7,500</td>
+  </tr>
+</table>
+</div>
+
+<p>Toyota and other Asian imports are the least expensive cars to maintain, with the Prius living up to its <a href="http://www.consumerreports.org/cro/news/2014/07/10-things-you-need-to-know-about-the-toyota-prius/index.htm" rel="nofollow" title="" target="_blank">well-known reputation</a> for reliability. Along with many Toyota models, Kia’s Soul and Honda’s Fit hold close to Prius’s low-cost lead. Toyota’s Tacoma and Highlander are also on the low-cost leaderboard, even though the list is dominated by compact and mid-sized sedans. Toyota completely avoids the the most expensive models list.</p>
+
+<p>So what, specifically, makes some brands more expensive than others? Some brands have a higher incidence of <a href="https://www.yourmechanic.com/article/how-to-maintain-your-car-on-a-schedule-by-brent-minderler" title="">routine maintenance</a>. But some cars tend to have the same problems time and again. </p>
+
+<p>We looked at which brands have maintenance requirements that occur unusually often for that particular brand. For each brand and issue, we compared the frequency to the median across all the cars we serviced.</p>
+
+<div align="center">
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg .tg-fwcs{font-size:13px;font-family:Arial, Helvetica, sans-serif !important;;text-align:center}
+.tg .tg-0vj8{font-weight:bold;font-family:Arial, Helvetica, sans-serif !important;;background-color:#186fce;color:#ffffff;text-align:center}
+.tg .tg-l4yu{font-weight:bold;font-size:16px;font-family:Arial, Helvetica, sans-serif !important;;background-color:#363946;color:#ffffff;text-align:center}
+.tg .tg-804w{font-family:Arial, Helvetica, sans-serif !important;;text-align:center;vertical-align:top}
+.tg .tg-431l{font-family:Arial, Helvetica, sans-serif !important;;text-align:center}
+</style>
+<table class="tg" style="margin-bottom:20px;">
+  <tr>
+    <th class="tg-l4yu" colspan="3" style="border: black solid 1px;">Unusually Common Car Issues</th>
+  </tr>
+  <tr>
+    <td class="tg-fwcs" colspan="3">Based on issues found by YourMechanic and compared to the median car</td>
+  </tr>
+  <tr>
+    <td class="tg-0vj8" style="border: black solid 1px;">Car Brand</td>
+    <td class="tg-0vj8" style="border: black solid 1px;">Car Issue</td>
+    <td class="tg-0vj8" style="border: black solid 1px;">Issue Frequency</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">Mercury</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/fuel-pump-replacement">
+              Fuel pump replacement
+          </a>
+</td>
+    <td class="tg-431l">28x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">Chrysler</td>
+    <td class="tg-431l">
+     <a href="https://www.yourmechanic.com/services/exhaust-gas-recirculation-egr-valve-replacement">
+              Exhaust gas recirculation/EGR valve replacement
+          </a>
+</td>
+    <td class="tg-431l">24x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">Infiniti</td>
+    <td class="tg-431l">
+<a href="https://www.yourmechanic.com/services/camshaft-position-sensor-replacement">
+              Camshaft position sensor replacement
+          </a>
+</td>
+    <td class="tg-431l">21x</td>
+  </tr>
+<tr>
+    <td class="tg-431l">Cadillac</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/intake-manifold-gaskets-replacement">
+              Intake manifold gasket replacement
+          </a>
+</td>
+    <td class="tg-431l">19x</td>
+  </tr>
+<tr>
+    <td class="tg-431l">Jaguar</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/check-engine-light-is-on-inspection">
+              Check Engine Light is on inspection
+          </a>
+</td>
+    <td class="tg-431l">19x</td>  </tr>
+  <tr>
+    <td class="tg-431l">Pontiac</td>
+    <td class="tg-431l">Intake manifold gasket replacement</td>
+    <td class="tg-431l">19x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">Dodge</td>
+    <td class="tg-431l">Exhaust gas recirculation/EGR valve replacement</td>
+    <td class="tg-431l">19x</td>
+  </tr>
+<tr>
+    <td class="tg-431l">Plymouth</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/car-is-not-starting-inspection">
+              Not starting inspection
+          </a>
+</td>
+    <td class="tg-431l">19x</td>
+  </tr>
+<tr>
+    <td class="tg-431l">Honda</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/valve-clearance-adjustment">
+              Valve clearance adjustment
+          </a>
+</td>
+    <td class="tg-431l">18x</td>
+  </tr>
+<tr>
+    <td class="tg-431l">BMW</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/window-motor-regulator-assembly-replacement">
+              Window regulator replacement
+          </a>
+</td>
+    <td class="tg-431l">18x</td>
+  </tr>
+<tr>
+    <td class="tg-431l">Ford</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/pcv-valve-hose-replacement">
+              PCV valve hose replacement
+          </a>
+</td>
+    <td class="tg-431l">18x</td>
+  </tr>
+<tr>
+    <td class="tg-431l">BMW</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/idler-pulley-replacement">
+              Idler pulley replacement
+          </a>
+</td>
+    <td class="tg-431l">18x</td>
+  </tr>
+<tr>
+    <td class="tg-431l">Chrysler</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/car-is-overheating-inspection">
+              Overheating inspection
+          </a>
+</td>
+    <td class="tg-431l">17x</td>
+  </tr>
+<tr>
+    <td class="tg-431l">Saturn</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/wheel-bearings-replacement">
+              Wheel bearing replacement
+          </a>
+</td>
+    <td class="tg-431l">17x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">Oldsmobile</td>
+    <td class="tg-431l">Not starting inspection</td>
+    <td class="tg-431l">17x</td>
+  </tr>
+<tr>
+    <td class="tg-431l">Mitsubishi</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/timing-belt-replacement">
+              Timing belt replacement
+          </a>
+</td>
+    <td class="tg-431l">17x</td>
+  </tr>
+<tr>
+    <td class="tg-431l">BMW</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/drive-belt-tensioner-replacement">
+              Drive belt tensioner replacement
+          </a>
+</td>
+    <td class="tg-431l">16x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">Chrysler</td>
+    <td class="tg-431l">Camshaft position sensor replacement</td>
+    <td class="tg-431l">16x</td>
+  </tr>
+<tr>
+    <td class="tg-431l">Jaguar</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/service-battery-cablest">
+              Battery service
+          </a>
+</td>
+    <td class="tg-431l">16x</td>
+  </tr>
+<tr>
+    <td class="tg-431l">Cadillac</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/coolant-is-leaking-inspection">
+              Leaking coolant
+          </a>
+</td>
+    <td class="tg-431l">16x</td>
+  </tr>
+<tr>
+    <td class="tg-431l">Jeep</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/crankshaft-position-sensor-replacement">
+              Crankshaft position sensor replacement
+          </a>
+</td>
+    <td class="tg-431l">15x</td>
+  </tr>
+<tr>
+    <td class="tg-431l">Chrysler</td>
+    <td class="tg-431l">
+          <a href="https://www.yourmechanic.com/services/engine-mount-replacement">
+              Engine mount replacement
+          </a>
+</td>
+    <td class="tg-431l">15x</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">Mercedes-Benz</td>
+    <td class="tg-804w">Crankshaft position sensor</td>
+    <td class="tg-804w">15x</td>
+  </tr>
+</table>
+</div>
+
+<p>Mercury is the brand that suffered most chronically from a design flaw. In this case, Mercury cars most frequently had fuel pump issues (Mercury was discontinued by parent company Ford in 2011). </p>
+
+<p>We can see some issues cross from brand to brand within the same manufacturer. For example, Dodge and Chrysler, which are both part of the Fiat Chrysler Automobiles (FCA) conglomerate, can’t seem to get their exhaust gas recirculation (EGR) valves working correctly. Their EGRs need to be fixed at roughly 20 times the national median rate.</p>
+
+<p>But there’s one problem customers care more about than any other: which cars will <a href="https://www.yourmechanic.com/article/how-to-fix-a-car-that-won-t-start-by-rocco-lovetere" title="">simply refuse to start</a>? We answer this question in the below chart, which limits the comparison to cars 10 years old or less.</p>
+
+<div align="center">
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg .tg-fwcs{font-size:13px;font-family:Arial, Helvetica, sans-serif !important;;text-align:center}
+.tg .tg-0vj8{font-weight:bold;font-family:Arial, Helvetica, sans-serif !important;;background-color:#186fce;color:#ffffff;text-align:center}
+.tg .tg-l4yu{font-weight:bold;font-size:16px;font-family:Arial, Helvetica, sans-serif !important;;background-color:#363946;color:#ffffff;text-align:center}
+.tg .tg-804w{font-family:Arial, Helvetica, sans-serif !important;;text-align:center;vertical-align:top}
+.tg .tg-431l{font-family:Arial, Helvetica, sans-serif !important;;text-align:center}
+</style>
+<table class="tg" style="margin-bottom:20px;">
+  <tr>
+    <th class="tg-l4yu" colspan="3" style="border: black solid 1px;">Car Brands Most Likely Not to Start</th>
+  </tr>
+  <tr>
+    <td class="tg-fwcs" colspan="3"> Based on service by YourMechanic and compared to the median model</td>
+  </tr>
+  <tr>
+    <td class="tg-0vj8" style="border: black solid 1px;">Rank</td>
+    <td class="tg-0vj8" style="border: black solid 1px;">Car Brand</td>
+    <td class="tg-0vj8" style="border: black solid 1px;">Frequency of<br> Car Not Starting</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">1</td>
+    <td class="tg-431l">Hummer</td>
+    <td class="tg-431l">9x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">2</td>
+    <td class="tg-431l">Mercury</td>
+    <td class="tg-431l">6x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">3</td>
+    <td class="tg-431l">Chrysler</td>
+    <td class="tg-431l">6x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">4</td>
+    <td class="tg-431l">Saturn</td>
+    <td class="tg-431l">5x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">5</td>
+    <td class="tg-431l">Dodge</td>
+    <td class="tg-431l">5x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">6</td>
+    <td class="tg-431l">Mitsubishi</td>
+    <td class="tg-431l">4x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">7</td>
+    <td class="tg-431l">BMW</td>
+    <td class="tg-431l">4x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">8</td>
+    <td class="tg-431l">Suzuki</td>
+    <td class="tg-431l">4x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">9</td>
+    <td class="tg-431l">Pontiac</td>
+    <td class="tg-431l">4x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">10</td>
+    <td class="tg-431l">Buick</td>
+    <td class="tg-431l">4x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">11</td>
+    <td class="tg-431l">Land Rover</td>
+    <td class="tg-431l">3x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">12</td>
+    <td class="tg-431l">Mercedes-Benz</td>
+    <td class="tg-431l">3x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">13</td>
+    <td class="tg-431l">Chevrolet</td>
+    <td class="tg-431l">3x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">14</td>
+    <td class="tg-431l">Jeep</td>
+    <td class="tg-431l">3x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">15</td>
+    <td class="tg-431l">Ford</td>
+    <td class="tg-431l">3x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">16</td>
+    <td class="tg-431l">GMC</td>
+    <td class="tg-431l">3x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">17</td>
+    <td class="tg-431l">Acura</td>
+    <td class="tg-431l">3x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">18</td>
+    <td class="tg-431l">Cadillac</td>
+    <td class="tg-431l">2x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">19</td>
+    <td class="tg-431l">Scion</td>
+    <td class="tg-431l">2x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">20</td>
+    <td class="tg-431l">Lincoln</td>
+    <td class="tg-431l">2x</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">21</td>
+    <td class="tg-804w">Nissan</td>
+    <td class="tg-804w">2x</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">22</td>
+    <td class="tg-804w">Mazda</td>
+    <td class="tg-804w">2x</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">23</td>
+    <td class="tg-804w">Volvo</td>
+    <td class="tg-804w">2x</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">24</td>
+    <td class="tg-804w">Infiniti</td>
+    <td class="tg-804w">2x</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">25</td>
+    <td class="tg-804w">Kia</td>
+    <td class="tg-804w">2x</td>
+  </tr>
+</table>
+</div>
+
+<p>Although this could be a reflection of <a href="https://www.yourmechanic.com/article/how-to-increase-the-reliability-of-your-car-by-elan-mcafee" title="">some owners' diligence</a> just as much as the cars' build quality, the results of this list are quite damning: three of the top five brands were discontinued in the last several years. </p>
+
+<p>In addition to the now-defunct brands, the premium segment (such as Mercedes-Benz, Land Rover, and BMW) is represented in this list. Notably absent are many of the brands from the least expensive list: Toyota, Honda, and Hyundai.</p>
+
+<p>But the brand doesn’t reveal everything about a car. We dove into the particular models that don’t start with the greatest frequency.</p>
+
+<div align="center">
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg .tg-fwcs{font-size:13px;font-family:Arial, Helvetica, sans-serif !important;;text-align:center}
+.tg .tg-0vj8{font-weight:bold;font-family:Arial, Helvetica, sans-serif !important;;background-color:#186fce;color:#ffffff;text-align:center}
+.tg .tg-l4yu{font-weight:bold;font-size:16px;font-family:Arial, Helvetica, sans-serif !important;;background-color:#363946;color:#ffffff;text-align:center}
+.tg .tg-804w{font-family:Arial, Helvetica, sans-serif !important;;text-align:center;vertical-align:top}
+.tg .tg-431l{font-family:Arial, Helvetica, sans-serif !important;;text-align:center}
+</style>
+<table class="tg" style="margin-bottom:20px;">
+  <tr>
+    <th class="tg-l4yu" colspan="3" style="border: black solid 1px;">Car Models Most Likely Not to Start</th>
+  </tr>
+  <tr>
+    <td class="tg-fwcs" colspan="3">Based on service by YourMechanic and compared to the median model</td>
+  </tr>
+  <tr>
+    <td class="tg-0vj8" style="border: black solid 1px;">Rank</td>
+    <td class="tg-0vj8" style="border: black solid 1px;">Car Model</td>
+    <td class="tg-0vj8" style="border: black solid 1px;">Frequency of<br> Car Not Starting</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">1</td>
+    <td class="tg-431l">Hyundai Tiburon</td>
+    <td class="tg-431l">26x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">2</td>
+    <td class="tg-431l">Dodge Caravan</td>
+    <td class="tg-431l">26x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">3</td>
+    <td class="tg-431l">Ford F-250 Super Duty</td>
+    <td class="tg-431l">21x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">4</td>
+    <td class="tg-431l">Ford Taurus</td>
+    <td class="tg-431l">19x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">5</td>
+    <td class="tg-431l">Chrysler PT Cruiser</td>
+    <td class="tg-431l">18x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">6</td>
+    <td class="tg-431l">Cadillac DTS</td>
+    <td class="tg-431l">17x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">7</td>
+    <td class="tg-431l">Hummer H3</td>
+    <td class="tg-431l">11x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">8</td>
+    <td class="tg-431l">Nissan Titan</td>
+    <td class="tg-431l">10x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">9</td>
+    <td class="tg-431l">Chrysler Sebring</td>
+    <td class="tg-431l">10x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">10</td>
+    <td class="tg-431l">Dodge Ram 1500</td>
+    <td class="tg-431l">10x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">11</td>
+    <td class="tg-431l">BMW 325i</td>
+    <td class="tg-431l">9x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">12</td>
+    <td class="tg-431l">Mitsubishi Eclipse</td>
+    <td class="tg-431l">9x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">13</td>
+    <td class="tg-431l">Dodge Charger</td>
+    <td class="tg-431l">8x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">14</td>
+    <td class="tg-431l">Chevrolet Aveo</td>
+    <td class="tg-431l">8x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">15</td>
+    <td class="tg-431l">Chevrolet Cobalt</td>
+    <td class="tg-431l">7x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">16</td>
+    <td class="tg-431l">Mazda MX-5 Miata</td>
+    <td class="tg-431l">7x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">17</td>
+    <td class="tg-431l">Mercedes-Benz ML350</td>
+    <td class="tg-431l">6x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">18</td>
+    <td class="tg-431l">Chevrolet HHR</td>
+    <td class="tg-431l">6x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">19</td>
+    <td class="tg-431l">Mitsubishi Galant</td>
+    <td class="tg-431l">6x</td>
+  </tr>
+  <tr>
+    <td class="tg-431l">20</td>
+    <td class="tg-431l">Volvo S40</td>
+    <td class="tg-431l">6x</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">21</td>
+    <td class="tg-804w">BMW X3</td>
+    <td class="tg-804w">6x</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">22</td>
+    <td class="tg-804w">Pontiac G6</td>
+    <td class="tg-804w">6x</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">23</td>
+    <td class="tg-804w">Dodge Caliber</td>
+    <td class="tg-804w">6x</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">24</td>
+    <td class="tg-804w">Nissan Pathfinder</td>
+    <td class="tg-804w">6x</td>
+  </tr>
+  <tr>
+    <td class="tg-804w">25</td>
+    <td class="tg-804w">Saturn Ion</td>
+    <td class="tg-804w">6x</td>
+  </tr>
+</table>
+</div>
+
+<p>The worst cars failed to start 26 times as often as the median, perhaps explaining why some of these models got the axe: the Hyundai Tiburon, Hummer H3, and Chrysler Sebring (all in the top 10) were discontinued. Some premium models make it into the shameful list as well, including BMWs and several Mercedes-Benz models. </p>
+
+<p>For as long as cars have existed, Americans have debated car ownership and the questions of cost and reliability. This data reveals which companies live up to their reputation for reliability (Toyota), which brands sacrifice reliability for prestige (BMW and Mercedes-Benz), and which models deserved to be discontinued (the Hummer 3). </p>
+
+<p>Still, car maintenance is about much more than the median cost. Factors such as <a href="https://www.yourmechanic.com/article/how-to-maintain-a-car-at-50-000-miles-by-timothy-charlet" title="">how well a car is maintained</a>, how often it is driven, where it is driven, and <a href="https://www.yourmechanic.com/article/how-bad-driving-prematurely-wears-out-your-car-by-conor-fynes" title="">how it is driven</a> all affect maintenance costs. Your mileage may vary.</p>
+
+</div>
+<hr>
+<div class='qna-article__merchandiser'>
+      <div class="js-react-on-rails-component" data-component-name="ServiceMerchandiserWidget" data-dom-id="ServiceMerchandiserWidget-react-component-37980463-65ac-487c-af04-4e2fb5ce8a3a" data-props="{}" data-trace="true" style="display: none"></div>
+      <div id="ServiceMerchandiserWidget-react-component-37980463-65ac-487c-af04-4e2fb5ce8a3a"><div><div class="merchandiser__widget"><div class="one"><div class="heading">Schedule Pre-purchase Car Inspection</div><div class="zip__selector__wrapper"><div class="zip__selector"><input type="tel" placeholder="ZIP Code" class="zip__selector__input" value=""/><div class="zip__input__label has-value">Service Area</div><div class="zip__input__city"></div></div></div><button class="select__vehicle__cta">SELECT YOUR VEHICLE</button></div><div class="two"><div class="instant__container"><div class="instant__price"><div style="height:100%"><div class="instant__price__range"><h2 class="instant__price__range__amount">$99.00 </h2><div class="instant__price__range__desc">Upfront, Transparent Price</div></div></div></div></div><div class="service__rating__container"><div><svg class="rating rating-50" height="27" width="174" viewBox="0 0 865 145" xmlns="http://www.w3.org/2000/svg"><path class="stars-1f" d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-0h" d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z"></path><path class="stars-2f" d="M290.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-1h" d="M214,0.3c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H214z"></path><path class="stars-3f" d="M470.4 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c.1-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-2h" d="M393.9,0.6c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.6H393.9z"></path><path class="stars-4f" d="M650.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-3h" d="M573.9 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars-5f" d="M830.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-4h" d="M753.8 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars" d="M72 19.3l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm179.8 0l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm180 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2z" fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="2"></path></svg></div><div><div class="service__rating__desc">Average rating from <!-- -->4,557<!-- --> customers who received a <!-- -->Pre-purchase Car Inspection<!-- -->.</div></div></div></div></div></div></div>
+
+</div>
+<hr>
+<div class='qna-article__tags-bookmark spacet-20'>
+<div class='qna-article__tags qna-article__tags--separated'>
+<a href='/advice/tag/no-start_535189815'><div class='qna-tag' itemprop='about'>
+no start
+</div></a>
+<a href='/advice/tag/data-journalism'><div class='qna-tag' itemprop='about'>
+data journalism
+</div></a>
+<a href='/advice/tag/driving-tips_1341747459'><div class='qna-tag' itemprop='about'>
+Driving Tips
+</div></a>
+<a href='/advice/tag/maintenance'><div class='qna-tag' itemprop='about'>
+maintenance
+</div></a>
+</div>
+</div>
+<div class='container breadcrumbs__container'>
+<ol class='qna-breadcrumbs' id='breadcrumb' itemscope='true' itemtype='http://schema.org/BreadcrumbList'>
+<li itemprop='itemListElement' itemscope='' itemtype='http://schema.org/ListItem'>
+<a href='/' itemprop='item' target='_self'>
+<span itemprop='name'>Home</span>
+</a>
+<meta content='1' itemprop='position'>
+</li>
+<li itemprop='itemListElement' itemscope='' itemtype='http://schema.org/ListItem'>
+<a href='/article' itemprop='item' target='_self'>
+<span itemprop='name'>Articles</span>
+</a>
+<meta content='2' itemprop='position'>
+</li>
+</ol>
+</div>
+
+<div class='qna-disclaimer'>
+The statements expressed above are only for informational purposes and should be independently verified. Please see our
+<a href='/terms-and-condition'>terms of service</a>
+for more details
+</div>
+
+</div>
+<div class='col-md-4'>
+<div class='row'>
+<div class='col-md-12'>
+<div class='g-border-container--white mb-30'>
+      <div class="js-react-on-rails-component" data-component-name="GoogleRating" data-dom-id="GoogleRating-react-component-9713a33b-8dca-4611-ac54-dc0eb2051f77" data-props="{}" data-trace="true" style="display: none"></div>
+      <div id="GoogleRating-react-component-9713a33b-8dca-4611-ac54-dc0eb2051f77"><div class="rating-content"><h3 class="agg-rating-headline widget-title text-center">Excellent Auto Repair Ratings<!-- -->.</h3><div class="rating_widget"><div class="text-center"><div class="google-logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGoAAAAiCAMAAACA9LykAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAC6UExURQAAADyC+DuB9yupTz2C+OdSGyuoTT6D+TGHoz2C+O5BLD2C+Os+KTl+9Tp+9TyB+O1BLDR58TV57+s7Jjh+9Pu6AOk5Jes+KTZ88juA9u5AK+RLCv2+APa4AO1AKzp+9f29APy7AOw/Kjl/9v2+AOs9KOw/Kv28APu7AOw+Kvy8ADl/9TyA9uw/KjqA9SqoTUCH/z+F/PJDLv/DAP+/AC2tUPBDLe5CLfVELvdFL/ZEL/ZFLy6zUy6xUoR3isQAAAAwdFJOUwCqit/jDbT/BPHx01E8Sr/lFQwpLjQbax+evQTxF9RiwlCBU95Ak6ZpoIaAd6twjQ8+0h4AAAO/SURBVEjHvVeJduo4DHWoU2ffgGxsZe1G29jw4sCb+f/fGtlZS0vnncNkdHraYCJfS7pXchGqLXYGrqvs7QD1bHaCKSWEZsTc+7dupn3c339c+S5OSEYqo5np3Ap19/df91dCMgEoo7qOdQFJyf5WqF+/voey9Qy2dxcjP/DtAYYPrz1BxbB5htdak8xbka5CaQogmaPOgq31BOVQQvHoP6XzFSjNhdos0P8BNdIJNX+S7dCyrOHk09JsuVyO1c+v+c7aiQEFrAulgvu2enUPlfqBBlZqcMaNedSCjR+nR7DNy6xz4AQDifUkVkzzvYWaRHOeM+6tJJgLqr0qWfWZFXnOGPy8hdXa0/RwlHbYjJt6YyFHCvTSs2zQQIVpIVwZO6XCWydEr0mhDZTGEmhPk+cTzwvD8xjjp7RMw5MAmW42XSxHBxSCsUAjLZSanjjLvblRlN4QlB7XUDhrjAB+VHBmrIbqMPIAayWzJ5L3OJ7Nlg+H4+FBwvtC9Yrt+477CSo6c+ZZ4WS4y/lv8MbdqHBGpYleOELqnOXGtuSGB49DeHiE7L2U3ACs47IudyK16ANWA6WCjyd8UDhnzAuRArJaN8Q3SyvxLSYPIy2CsCLYfwqhVAyBAA+P8DcwKcXVNLA7UVk5L8AFbXce58U5Qgs4R1KXN6hskBHdR6uCy0jkwby8eENoCRV6qt+GsDaqlAtsXx3WpA3U6pQboWql/MzOPI1C6ICkOVNjbkZNDT2fc69RD+QgBVJA0hrevRyO01kZSdMDlJaBuyL3dnNWFIW328pMJFl7qFbWYulPoegVqDPkrSjyeRS2+xKyvuxVxEYigfymBHKeG29Wp61AYajewQoSOKYLjAJaFLuWFueSFsc/pcWWczavjhqWPoFouGRQi8sWHyX/Jdktubj18utkf71C9o5W5lWzieW8x8nCsdfvrhzJZe5rCYdfJKxWEp6UEqZCwsGlhCErzIhC4V6cS4UhX5EdRdxkxK9Mr6pcNyaD5ReNaTr9pjHpF41JujPh3vY1pC1wltUXJuo2g1Ld5dBuwYrv2u1Dt93S8rKFS6jyxtRxf27J4S9ceAtuTVhZa5+HSH5iRmp1h8jmeICO2x0iMQyRjOIkBga+Iu3+7u6jdme/hfvFdcaG6WZ/uW8Ot19H4/ib0WiL0Rhgmr3/m/tNNqq1AmSnDurPbEXX7fIRWk8zkvowB8YOdqDC/isQUOn1f4uBvB0nitCXPuoVKkiA6xT420qyN9P2WOqKuA7q3eJ3F2PF+elC+Q8A2Jp4QcXHhAAAAABJRU5ErkJggg==" alt="Google Logo"/></div><div class="rating-logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHwAAAAcCAYAAACj6tvkAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAaGVYSWZNTQAqAAAACAAEAQYAAwAAAAEAAgAAARIAAwAAAAEAAQAAASgAAwAAAAEAAgAAh2kABAAAAAEAAAA+AAAAAAADoAEAAwAAAAEAAQAAoAIABAAAAAEAAAB8oAMABAAAAAEAAAAcAAAAAJWnJpcAAALjaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJYTVAgQ29yZSA1LjQuMCI+CiAgIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CiAgICAgIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICAgICAgICAgIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIgogICAgICAgICAgICB4bWxuczpleGlmPSJodHRwOi8vbnMuYWRvYmUuY29tL2V4aWYvMS4wLyI+CiAgICAgICAgIDx0aWZmOlBob3RvbWV0cmljSW50ZXJwcmV0YXRpb24+MjwvdGlmZjpQaG90b21ldHJpY0ludGVycHJldGF0aW9uPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICAgICA8dGlmZjpDb21wcmVzc2lvbj4xPC90aWZmOkNvbXByZXNzaW9uPgogICAgICAgICA8dGlmZjpSZXNvbHV0aW9uVW5pdD4yPC90aWZmOlJlc29sdXRpb25Vbml0PgogICAgICAgICA8ZXhpZjpQaXhlbFlEaW1lbnNpb24+Mjg8L2V4aWY6UGl4ZWxZRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpDb2xvclNwYWNlPjE8L2V4aWY6Q29sb3JTcGFjZT4KICAgICAgICAgPGV4aWY6UGl4ZWxYRGltZW5zaW9uPjEyNDwvZXhpZjpQaXhlbFhEaW1lbnNpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8yogPAAAI2ElEQVRoBe1ae3AV5RX/7d5H7iXPm9y8TK4yAaIzqGBKWiKMr/yBTltrGewwNmC14IyIU9vOdGzt8EcHW+10+KeCtIoPalWopY7KMBYZEQtU2uFhgRYJYLxETMJNJJjcm/vsdzbZzX5799vdS7J/MOTM7P0e55zf/b5zdr/nkXKMMEVXjAXkK6anUx1VLDDl8CvsRfBa9Tc6kMG+0wn0Xswgk7WSBDzs1akp9eDmpgAiIY+18Bg398XnyBz+N3KxGJDJWOt4PJCqquCZOw9S3VXWsir+0Flke/YjF+9DLpe21JEkL6RgNeTaNkjFjZayKtNt+5zpP4u9nx1CX3wAmRzvgMV1t6jNUFJJklBUVIRQKIRgMMjx9AVTh8dTOfzm3QvY/NFXzFCFTfH0x8u/UYKfLypH0Cfp/2s8n0gg+dwzSL/1xiXhe+9eAv/K1UAgMI6pz2XiSB3+LdInX7k0/Fkd8M39GXuLzQ3ntn2GknE8tfd57Oo/qO8Vl29JXM2V9YWGhgbMnDkTHvaRGEkyLtqoM3c/24NPelNG2YLKzTU+vPVwbb7TmbPjjzyAbNfpgvCMwvI1TQiufzHf6czZiXcXI3vhpFGloLJcPguBRdvynO62fcjZHTueQE96wLK9a0PLLPnTpk1Da2trntPz5nD6sifqbGoJYRCWkejLnqizCZMwCMtI9GVP1NkKPnthCMtIbtuHvmw7ZxvbZFYeHh5GZ2dnHotz+GdszqZh3I5C02RUBDlVUxXConlOpdy5z5VhXC0L07JyoKxMyFYZypTA1gEq5YaiyjCuloWpPwT4K4RslaFMCWwdoJLb9jkdi1oO42o7yv0l8HpNZ2NVREm7u7sRj8e5Os5rtEBzMmdv/WEN/rKihgMyKxAWYaqkLNAcrAmC6zYiuO4PqpowJXzCVElZoDnAD7T/GYH2V1U1YUr4hKmS2/bZGz2k/pVluv7Wx9HS0mIpozIHBvipgXN4H1uN29HCGUVorvUpD+XtiFb4KuX62WrchuSWr0Oe3jT6tLTaSGN0hT8mlYuft5WX6xZArmgefWpvtpWnFb5KbtvnfPxL9a+EaWvNbDSVNaCkpERZkQsFxxgjIyOcCOdwu60Xaf5gfqkGoM9rlYYMh2m39WK6vnvu1RB893xPywszOky7rRdheGeNL3a8zcuFsCpDj8n1RRUwpHqb6PMGMa2oxzRuvTQhXWbJjHat1Nhov300jtiWE4HMdlU3RfyoKfGgslhW9tnt145vhSj/2O1lyj49NpRV0iPdSWSd7uRkGfJ1s9n+OgypvEJJPfMXah2ivG/ZCuT6zyP35QBLY8ieOM5WbFlNxjIjMfyquZAC1eypZPvsGnga7tBUKO+9/lGA9ukjMWW/nu3/mA0bzvDdto8MCbMrZ6AqWI4KfynCgQosqJ+jtT8cDmP69OlIJpPaMzg4qPHNMpYOv2t2EBuWhs30lDqZ9fjH7WyBpaNVr5/H9qP8QkHH5rKehbcjsObXXJ2+ILEXwn//Sn0VEr/6BTJ7dnF1ooKncRGKFv5exIbEXgj/DT/i+CP/eBSZ6A6uTlRw2z63NczD2vmrRH/P2i+hqamJ4x89ehS9vb1cnb7ADel6BuV3/jeOtz8eNlYLy+/8Z1jREQoYGJn9e5B+f6ehVlxM734PpOOUMt27kO56x6k4k90O0nFKbtvnw3OH8F70I6fNQU9PD/r6xtccZoqWDk+y9dbqrTFs+MB6mCDgZ/cM4pEtMZCOY0qlMPLkL5F87WVbleSWzRhZ+wTAdBxTlg11+x5D6vhGW5XU8T8yWfa1Mx2n5LZ9Utk01hzYiM3/227bpK6uLhw7dsx2l2XpcPVfnt55AS/sv6gW89IXGe+pv+cfsuQJCipSmzYgtW2LgMt8/LetSD23Xsi3Y6SO/A6pE+KXinipI/mHLHa4Kt9t+2w89ga2dopHwmg0ilOnTqnNsUwdOZwQQhYHLU4OYSxbwZgSHbYISCq1P4QRqGrVUpH4oMWKpwHYZNy2Dx22iMjn84lYefWOHd56jXjPPc+Cl/ePggr5hjkCDiBff6OQ55QhV88Tisrhrwl5Thlu2+fGqlnCppSXiz8WoxLncLriNKO6Mg8aQ6MLejojX7qpV3lOjl2wRBivll2NmhGHaXJ7QzpSuIZdS9Yr6nRGHv/pKuXJdp1R6mR2HSpVVSv5vB8dJl1xmpEUrINc3KCw6Jw9satDebIXRs+a5ZJGtmWrNVNlK+FxTK4vOunJso+H7RrMqDoYQn3x6G7pzGA3Vu95GgcPHsTQ0JAiTtehfr/fTFVZyesZ471htdUCp3lZOz6NpfDqv4awad9FpMe2qXc+8wVWLijFfa0l8Jn7W9m7q38oVVapWT5lTst2s3Pw7W8i9dfXtLvx+EPfh2/JffB+87vsxIRrqqZPd+QqSUHBFlJm+Bc/RbrzdaRPvMT22WlFJbHjW/Be9yC8M5eyYUSAz+7IVXLbPuGg+bRDL8LZr3rw5pnd2HJyJ7sbz2BxuhUHDhxAJBIBXYfKbAtrRnRHrifuepQuB25Zd852pacHsMrTPvHDn9RrARF0eRJfvnhS8YN/2qYFRNDlSeLtOyYVP/Dt97WACLftQ5cnHbvXWJlU49ldj6qCbW1tXEAE91pczSJVKHhhsoiw9NEvUv1VoOCFySLC0ke/SMURdnTaMVnwCpY++sVt+zRVRdBe6exSxEkn6cs3Rr9wDicQilSh4IWJEmEQlpEoUoWCFyZKhKFEvRiAKFKFghcmSoShRL0YgNy2z+MLVqDWy65vJ0gUAEFRL0bKcziFJVGkyv3skoSG5EKJdEjXNNqFwFhYEkWq+L5z7yXjk65ptAvhs7AkilTxNS+7dHymaxbtQvBu26fYH8Qrdz05oS+dvmyzaBdqPzeHU4WeaM7aX2AQYxsLYqShzwnRnJ45UmAQ4xwWxMimBidEc3q2558FBjHOZ3N2xAk83LYPzen7oocnNYjR0uGOej0ldFlZIG9Iv6xaP9XYgi0w5fCCTXZ5K/wfdGWkxwJdTAYAAAAASUVORK5CYII=" alt="Google Ratings"/></div><p>4.2 Average Rating</p></div></div></div></div>
+
+</div>
+</div>
+</div>
+<div class='row'>
+<div class='col-md-12'>
+<div class='g-border-container--white mb-30'>
+<div class='address_service_card'>
+<div class='row'>
+<div class='col-xs-12'>
+<h2 class='g-header-text text-center addr-title'>
+  Auto Repair
+</h2>
+</div>
+</div>
+<div class='row'>
+<div class='col-xs-5'>
+<p>
+Service Hours
+</p>
+</div>
+<div class='col-xs-7'>
+<div content='Mo,Tu,We,Th,Fr,Sa,Su 07:00-21:00' itemprop='openingHours'>
+<p>7 AM - 9 PM</p>
+<p>7 days a week</p>
+</div>
+</div>
+</div>
+<div class='row'>
+<div class='col-xs-5'>
+<p>
+Phone Number
+</p>
+</div>
+<div class='col-xs-7'>
+<a content='1 (855) 347-2779' href='tel:18553472779' itemprop='telephone'>1 (855) 347-2779</a>
+</div>
+</div>
+<div class='row'>
+<div class='col-xs-5'>
+<p>
+Phone Hours
+</p>
+</div>
+<div class='col-xs-7'>
+<div>
+<div>
+<p>Mon - Fri / 6 AM - 5 PM PST</p>
+<p></p>
+</div>
+<div>
+<p>Sat - Sun / 7 AM - 4 PM PST</p>
+<p></p>
+</div>
+</div>
+</div>
+</div>
+<div class='row'>
+<div class='col-xs-5'>
+<p>
+Address
+</p>
+</div>
+<div class='col-xs-7'>
+<p>
+We come to you at no extra charge
+</p>
+</div>
+</div>
+<div class='row'>
+<div class='col-xs-5'>
+<p>
+Guarantee
+</p>
+</div>
+<div class='col-xs-7'>
+<p>
+12-month/12,000-mile warranty
+</p>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<div class='row'>
+<div class='col-md-12'>
+<div class='g-border-container--white merchandiser_side_widget' style='padding-top: 10px;'>
+      <div class="js-react-on-rails-component" data-component-name="ServiceMerchandiserSideWidget" data-dom-id="ServiceMerchandiserSideWidget-react-component-7df2abc8-3bb6-44c6-9310-319b884343e0" data-props="{}" data-trace="true" style="display: none"></div>
+      <div id="ServiceMerchandiserSideWidget-react-component-7df2abc8-3bb6-44c6-9310-319b884343e0"><div class="merc_sidewidget_container"><div class="zip__selector__wrapper"><div class="zip__selector"><input type="tel" placeholder="ZIP Code" class="zip__selector__input" value=""/><div class="zip__input__label has-value">Service Area</div><div class="zip__input__city"></div></div></div><button class="get-quote-btn brdr-n">GET A QOUTE</button></div></div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class='qna-section qna-section--bg-white'>
+<div class='container'>
+<div class='row'>
+<div class='col-lg-12 text-center spacet-25 spaceb-40'>
+<h2 class='g-header-text'>
+Recent Pre-purchase Car Inspection reviews
+</h2>
+</div>
+</div>
+<div class='row'>
+<div class='col-md-4 col-md-push-8 spaceb-20'>
+      <div class="js-react-on-rails-component" data-component-name="AggregateRating" data-dom-id="AggregateRating-react-component-b279fac6-7448-4808-953c-76fb7b84b05e" data-props="{&quot;ratingService&quot;:&quot;YourMechanic Pre-purchase Car Inspection Service&quot;,&quot;averageRating&quot;:4.9,&quot;numberOfReviews&quot;:4557,&quot;count_1_star&quot;:73,&quot;count_2_star&quot;:34,&quot;count_3_star&quot;:35,&quot;count_4_star&quot;:171,&quot;count_5_star&quot;:4244,&quot;link_to_reviews_page&quot;:&quot;/reviews/?mktg_jid=396&quot;}" data-trace="true" style="display: none"></div>
+      <div id="AggregateRating-react-component-b279fac6-7448-4808-953c-76fb7b84b05e"><div class="agg-rating-container spaceb-10" data-reactroot=""><div class="agg-rating-content"><h3 class="agg-rating-headline">Excellent Rating</h3><div class="row"><div class="col-sm-12"><div class="agg-rating-stars"><div class="mb-review-star-rating text-left"><svg class="rating rating-50" height="27" width="174" id="general-rating" viewBox="0 0 865 145" xmlns="http://www.w3.org/2000/svg"><path class="stars-1f" d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-0h" d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z"></path><path class="stars-2f" d="M290.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-1h" d="M214,0.3c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H214z"></path><path class="stars-3f" d="M470.4 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c.1-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-2h" d="M393.9,0.6c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.6H393.9z"></path><path class="stars-4f" d="M650.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-3h" d="M573.9 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars-5f" d="M830.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-4h" d="M753.8 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars" d="M72 19.3l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm179.8 0l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm180 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2z" fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="2"></path></svg></div></div></div></div><hr/><h3 class="agg-rating-service">YourMechanic Pre-purchase Car Inspection Service</h3><div class="row"><div class="col-xs-12"><p class="pull-left">Average Rating</p><p class="agg-rating-numbers">4.9<!-- -->/5</p></div><div class="col-xs-12"><p class="pull-left">Number of Reviews</p><p class="agg-rating-numbers">4,557</p></div></div></div><div class="rating-summary-container"><div class="rating-summary-content"><h5 class="rating-summary-headline">Rating Summary</h5><div class="rating-summary-rating"><div class="one"><div class="rating-summary-stars"><div class="mb-review-star-rating text-left"><svg class="rating rating-50" height="18" width="116" id="general-rating" viewBox="0 0 865 145" xmlns="http://www.w3.org/2000/svg"><path class="stars-1f" d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-0h" d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z"></path><path class="stars-2f" d="M290.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-1h" d="M214,0.3c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H214z"></path><path class="stars-3f" d="M470.4 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c.1-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-2h" d="M393.9,0.6c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.6H393.9z"></path><path class="stars-4f" d="M650.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-3h" d="M573.9 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars-5f" d="M830.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-4h" d="M753.8 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars" d="M72 19.3l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm179.8 0l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm180 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2z" fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="2"></path></svg></div><div class="rating-summary-bar-fill-count mobile">4,244</div></div><div class="rating-summary-stars"><div class="mb-review-star-rating text-left"><svg class="rating rating-40" height="18" width="116" id="general-rating" viewBox="0 0 865 145" xmlns="http://www.w3.org/2000/svg"><path class="stars-1f" d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-0h" d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z"></path><path class="stars-2f" d="M290.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-1h" d="M214,0.3c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H214z"></path><path class="stars-3f" d="M470.4 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c.1-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-2h" d="M393.9,0.6c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.6H393.9z"></path><path class="stars-4f" d="M650.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-3h" d="M573.9 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars-5f" d="M830.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-4h" d="M753.8 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars" d="M72 19.3l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm179.8 0l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm180 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2z" fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="2"></path></svg></div><div class="rating-summary-bar-fill-count mobile">171</div></div><div class="rating-summary-stars"><div class="mb-review-star-rating text-left"><svg class="rating rating-30" height="18" width="116" id="general-rating" viewBox="0 0 865 145" xmlns="http://www.w3.org/2000/svg"><path class="stars-1f" d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-0h" d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z"></path><path class="stars-2f" d="M290.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-1h" d="M214,0.3c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H214z"></path><path class="stars-3f" d="M470.4 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c.1-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-2h" d="M393.9,0.6c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.6H393.9z"></path><path class="stars-4f" d="M650.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-3h" d="M573.9 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars-5f" d="M830.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-4h" d="M753.8 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars" d="M72 19.3l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm179.8 0l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm180 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2z" fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="2"></path></svg></div><div class="rating-summary-bar-fill-count mobile">35</div></div><div class="rating-summary-stars"><div class="mb-review-star-rating text-left"><svg class="rating rating-20" height="18" width="116" id="general-rating" viewBox="0 0 865 145" xmlns="http://www.w3.org/2000/svg"><path class="stars-1f" d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-0h" d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z"></path><path class="stars-2f" d="M290.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-1h" d="M214,0.3c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H214z"></path><path class="stars-3f" d="M470.4 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c.1-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-2h" d="M393.9,0.6c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.6H393.9z"></path><path class="stars-4f" d="M650.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-3h" d="M573.9 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars-5f" d="M830.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-4h" d="M753.8 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars" d="M72 19.3l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm179.8 0l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm180 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2z" fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="2"></path></svg></div><div class="rating-summary-bar-fill-count mobile">34</div></div><div class="rating-summary-stars"><div class="mb-review-star-rating text-left"><svg class="rating rating-10" height="18" width="116" id="general-rating" viewBox="0 0 865 145" xmlns="http://www.w3.org/2000/svg"><path class="stars-1f" d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-0h" d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z"></path><path class="stars-2f" d="M290.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-1h" d="M214,0.3c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H214z"></path><path class="stars-3f" d="M470.4 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c.1-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-2h" d="M393.9,0.6c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.6H393.9z"></path><path class="stars-4f" d="M650.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-3h" d="M573.9 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars-5f" d="M830.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-4h" d="M753.8 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars" d="M72 19.3l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm179.8 0l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm180 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2z" fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="2"></path></svg></div><div class="rating-summary-bar-fill-count mobile">73</div></div></div><div class="two"><div><div class="rating-summary-bar"><div class="rating-summary-bar-fill" style="width:108.03247750713189px"></div></div><div class="rating-summary-bar-fill-count">4,244</div></div><div><div class="rating-summary-bar"><div class="rating-summary-bar-fill" style="width:4.352863726135615px"></div></div><div class="rating-summary-bar-fill-count">171</div></div><div><div class="rating-summary-bar"><div class="rating-summary-bar-fill" style="width:0.890937019969278px"></div></div><div class="rating-summary-bar-fill-count">35</div></div><div><div class="rating-summary-bar"><div class="rating-summary-bar-fill" style="width:0.8654816765415844px"></div></div><div class="rating-summary-bar-fill-count">34</div></div><div><div class="rating-summary-bar"><div class="rating-summary-bar-fill" style="width:1.8582400702216368px"></div></div><div class="rating-summary-bar-fill-count">73</div></div></div></div></div></div><div><a style="display:block;text-align:center;font-weight:600;margin:15px 0 -5px 0;text-transform:uppercase" href="/reviews/?mktg_jid=396">SEE ALL REVIEWS</a></div></div></div>
+
+<div itemprop='aggregateRating' itemscope itemtype='https://schema.org/AggregateRating'>
+<div itemprop='itemReviewed' itemscope itemtype='https://schema.org/Service'>
+<meta content='YourMechanic Pre-purchase Car Inspection' itemprop='name'>
+</div>
+<meta content='4557' itemprop='ratingCount'>
+<meta content='4557' itemprop='reviewCount'>
+<meta content='4.9' itemprop='ratingValue'>
+<meta content='5' itemprop='bestRating'>
+<meta content='1' itemprop='worstRating'>
+</div>
+
+</div>
+<div class='col-md-8 col-md-pull-4 spaceb-20'>
+      <div class="js-react-on-rails-component" data-component-name="MechanicReviewRating" data-dom-id="MechanicReviewRating-react-component-719fe606-52a9-4c6c-9e50-d6aafc24886c" data-props="{&quot;mechanic&quot;:{&quot;id&quot;:87235,&quot;name&quot;:&quot;Chris&quot;,&quot;login&quot;:&quot;callshouse&quot;,&quot;mech_location&quot;:&quot;Lake Elsinore, CA&quot;,&quot;experience&quot;:21,&quot;avatar_url&quot;:&quot;https://res.cloudinary.com/yourmechanic/image/upload/dpr_auto,f_auto,g_face,q_auto/v1/mechanic/avatar_images/5329199817682576760&quot;,&quot;avatar_path&quot;:&quot;mechanic/avatar_images/5329199817682576760&quot;,&quot;profile_url&quot;:&quot;/pro/callshouse&quot;,&quot;average_rating&quot;:5,&quot;ratings_count&quot;:1828,&quot;reviews&quot;:[{&quot;rating&quot;:5,&quot;content&quot;:&quot;We did a pre-purchase inspection and Chris was incredible.\nHe was very thorough, was clear and vocal about all of the potential issues we&#x27;d face in buying the camper. He gave rough estimates for fixing everything and an overall recommendation for what he thought the vehicle was worth. Priceless advice for a very affordable fee.&quot;,&quot;author&quot;:&quot;Ben&quot;,&quot;review_date&quot;:&quot;2020-06-29T03:06:12-07:00&quot;,&quot;service_location&quot;:&quot;Laguna Niguel, California&quot;,&quot;car&quot;:&quot;1984 Chevrolet G20&quot;,&quot;job&quot;:&quot;Pre-purchase Car Inspection&quot;},{&quot;rating&quot;:5,&quot;content&quot;:&quot;Clear and excellent communication, couldn\u2019t be more happy with YourMechanic and Chris. Would highly recommend both!&quot;,&quot;author&quot;:&quot;Thomas&quot;,&quot;review_date&quot;:&quot;2020-06-24T06:26:00-07:00&quot;,&quot;service_location&quot;:&quot;Lake Elsinore, California&quot;,&quot;car&quot;:&quot;2007 Honda Odyssey&quot;,&quot;job&quot;:&quot;Pre-purchase Car Inspection&quot;}]},&quot;jid&quot;:396,&quot;hide_review_cta&quot;:false,&quot;review_subject&quot;:&quot;YourMechanic Pre-purchase Car Inspection&quot;,&quot;hide_description&quot;:false}" data-trace="true" style="display: none"></div>
+      <div id="MechanicReviewRating-react-component-719fe606-52a9-4c6c-9e50-d6aafc24886c"><div class="review-rating-module spaceb-20" data-reactroot=""><div class="review-rating-module__side"><div class="row"><div class="col-sm-12 text-center"><div class="review-rating-module-avatar review-rating-module-avatar-mechanic"><span class=" lazy-load-image-background opacity" style="background-image:url( );background-size:100% 100%;color:transparent;display:inline-block;height:80px;width:80px"><span class="" style="display:inline-block;height:80px;width:80px"></span></span></div><div class="review-rating-module__side-details"><a href="/pro/callshouse"><h3 class="review-rating-module__side__name">Chris</h3></a><div class="review-rating-module__details__heading-details-mobile">21 years of experience</div><div class="review-rating-module__side__review">1828 reviews</div><div class="col-sm-5 mobile"><a class="review-rating-module__details__cta button" href="/book?mechanic=callshouse&amp;mktg_jid=396">Request Chris</a></div></div></div></div></div><div class="review-rating-module__body"><div class="review-rating-module__heading"><div class="container"><div class="row"><div class="col-sm-7"><div class="review-rating-module__details__heading-name">Chris</div><div class="review-rating-module__details__heading-details">21 years of experience</div></div><div class="col-sm-5"><a class="review-rating-module__details__cta button pull-right" href="/book?mechanic=callshouse&amp;mktg_jid=396">Request Chris</a></div></div></div></div><div class="review-rating-module__content"><div itemProp="Review" itemscope="" itemType="https://schema.org/Review"><div itemProp="itemReviewed" itemscope="" itemType="https://schema.org/Service"><meta itemProp="name" content="YourMechanic Pre-purchase Car Inspection"/></div><div class="container"><div class="review-rating-module__content__item"><div class="row"><div class="col-sm-12"><div itemProp="author" itemscope="" itemType="https://schema.org/Person"><meta content="Ben" itemProp="name"/></div><div class="review-rating-module__content__rating" itemProp="reviewRating" itemscope="" itemType="https://schema.org/Rating"><meta itemProp="ratingValue" content="5"/><meta itemProp="bestRating" content="5"/><meta itemProp="worstRating" content="1"/><div class="mb-review-star-rating text-left"><svg class="rating rating-50" height="18" width="116" id="general-rating" viewBox="0 0 865 145" xmlns="http://www.w3.org/2000/svg"><path class="stars-1f" d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-0h" d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z"></path><path class="stars-2f" d="M290.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-1h" d="M214,0.3c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H214z"></path><path class="stars-3f" d="M470.4 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c.1-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-2h" d="M393.9,0.6c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.6H393.9z"></path><path class="stars-4f" d="M650.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-3h" d="M573.9 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars-5f" d="M830.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-4h" d="M753.8 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars" d="M72 19.3l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm179.8 0l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm180 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2z" fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="2"></path></svg></div></div><div class="review-rating-module__content__author">by <span class="review-rating-module__content__author-name">Ben</span></div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__details" itemProp="description">Chevrolet G20 - Pre-purchase Car Inspection - Laguna Niguel, California</div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__review" itemProp="reviewBody">We did a pre-purchase inspection and Chris was incredible.
+He was very thorough, was clear and vocal about all of the potential issues we&#x27;d face in buying the camper. He gave rough estimates for fixing everything and an overall recommendation for what he thought the vehicle was worth. Priceless advice for a very affordable fee.</div></div></div></div></div></div></div><div class="review-rating-module__content"><div itemProp="Review" itemscope="" itemType="https://schema.org/Review"><div itemProp="itemReviewed" itemscope="" itemType="https://schema.org/Service"><meta itemProp="name" content="YourMechanic Pre-purchase Car Inspection"/></div><div class="container"><div class="review-rating-module__content__item"><div class="row"><div class="col-sm-12"><div itemProp="author" itemscope="" itemType="https://schema.org/Person"><meta content="Thomas" itemProp="name"/></div><div class="review-rating-module__content__rating" itemProp="reviewRating" itemscope="" itemType="https://schema.org/Rating"><meta itemProp="ratingValue" content="5"/><meta itemProp="bestRating" content="5"/><meta itemProp="worstRating" content="1"/><div class="mb-review-star-rating text-left"><svg class="rating rating-50" height="18" width="116" id="general-rating" viewBox="0 0 865 145" xmlns="http://www.w3.org/2000/svg"><path class="stars-1f" d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-0h" d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z"></path><path class="stars-2f" d="M290.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-1h" d="M214,0.3c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H214z"></path><path class="stars-3f" d="M470.4 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c.1-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-2h" d="M393.9,0.6c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.6H393.9z"></path><path class="stars-4f" d="M650.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-3h" d="M573.9 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars-5f" d="M830.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-4h" d="M753.8 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars" d="M72 19.3l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm179.8 0l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm180 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2z" fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="2"></path></svg></div></div><div class="review-rating-module__content__author">by <span class="review-rating-module__content__author-name">Thomas</span></div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__details" itemProp="description">Honda Odyssey - Pre-purchase Car Inspection - Lake Elsinore, California</div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__review" itemProp="reviewBody">Clear and excellent communication, couldn’t be more happy with YourMechanic and Chris. Would highly recommend both!</div></div></div></div></div></div></div></div></div></div>
+
+      <div class="js-react-on-rails-component" data-component-name="MechanicReviewRating" data-dom-id="MechanicReviewRating-react-component-c931b6db-1112-4f44-8eec-a23e175f9c4b" data-props="{&quot;mechanic&quot;:{&quot;id&quot;:1164508,&quot;name&quot;:&quot;Eliud&quot;,&quot;login&quot;:&quot;mariana&quot;,&quot;mech_location&quot;:&quot;Bethlehem, GA&quot;,&quot;experience&quot;:22,&quot;avatar_url&quot;:&quot;https://res.cloudinary.com/yourmechanic/image/upload/dpr_auto,f_auto,g_face,q_auto/v1/mechanic/avatar_images/14682929858262288374&quot;,&quot;avatar_path&quot;:&quot;mechanic/avatar_images/14682929858262288374&quot;,&quot;profile_url&quot;:&quot;/pro/mariana&quot;,&quot;average_rating&quot;:5,&quot;ratings_count&quot;:72,&quot;reviews&quot;:[{&quot;rating&quot;:5,&quot;content&quot;:&quot;My mechanic was very knowledgeable and took the time to answer all my questions. I will definitely use again.&quot;,&quot;author&quot;:&quot;arles&quot;,&quot;review_date&quot;:&quot;2020-06-27T15:23:35-07:00&quot;,&quot;service_location&quot;:&quot;Loganville, Georgia&quot;,&quot;car&quot;:&quot;2012 BMW X5&quot;,&quot;job&quot;:&quot;Pre-purchase Car Inspection&quot;},{&quot;rating&quot;:5,&quot;content&quot;:&quot;GReat service and even arrived earlier than our appointment which worked great for me.  Was willing to answer all of my questions&quot;,&quot;author&quot;:&quot;Kent&quot;,&quot;review_date&quot;:&quot;2020-06-14T17:47:46-07:00&quot;,&quot;service_location&quot;:&quot;Loganville, Georgia&quot;,&quot;car&quot;:&quot;2016 BMW 535d xDrive&quot;,&quot;job&quot;:&quot;Pre-purchase Car Inspection&quot;}]},&quot;jid&quot;:396,&quot;hide_review_cta&quot;:false,&quot;review_subject&quot;:&quot;YourMechanic Pre-purchase Car Inspection&quot;,&quot;hide_description&quot;:false}" data-trace="true" style="display: none"></div>
+      <div id="MechanicReviewRating-react-component-c931b6db-1112-4f44-8eec-a23e175f9c4b"><div class="review-rating-module spaceb-20" data-reactroot=""><div class="review-rating-module__side"><div class="row"><div class="col-sm-12 text-center"><div class="review-rating-module-avatar review-rating-module-avatar-mechanic"><span class=" lazy-load-image-background opacity" style="background-image:url( );background-size:100% 100%;color:transparent;display:inline-block;height:80px;width:80px"><span class="" style="display:inline-block;height:80px;width:80px"></span></span></div><div class="review-rating-module__side-details"><a href="/pro/mariana"><h3 class="review-rating-module__side__name">Eliud</h3></a><div class="review-rating-module__details__heading-details-mobile">22 years of experience</div><div class="review-rating-module__side__review">72 reviews</div><div class="col-sm-5 mobile"><a class="review-rating-module__details__cta button" href="/book?mechanic=mariana&amp;mktg_jid=396">Request Eliud</a></div></div></div></div></div><div class="review-rating-module__body"><div class="review-rating-module__heading"><div class="container"><div class="row"><div class="col-sm-7"><div class="review-rating-module__details__heading-name">Eliud</div><div class="review-rating-module__details__heading-details">22 years of experience</div></div><div class="col-sm-5"><a class="review-rating-module__details__cta button pull-right" href="/book?mechanic=mariana&amp;mktg_jid=396">Request Eliud</a></div></div></div></div><div class="review-rating-module__content"><div itemProp="Review" itemscope="" itemType="https://schema.org/Review"><div itemProp="itemReviewed" itemscope="" itemType="https://schema.org/Service"><meta itemProp="name" content="YourMechanic Pre-purchase Car Inspection"/></div><div class="container"><div class="review-rating-module__content__item"><div class="row"><div class="col-sm-12"><div itemProp="author" itemscope="" itemType="https://schema.org/Person"><meta content="arles" itemProp="name"/></div><div class="review-rating-module__content__rating" itemProp="reviewRating" itemscope="" itemType="https://schema.org/Rating"><meta itemProp="ratingValue" content="5"/><meta itemProp="bestRating" content="5"/><meta itemProp="worstRating" content="1"/><div class="mb-review-star-rating text-left"><svg class="rating rating-50" height="18" width="116" id="general-rating" viewBox="0 0 865 145" xmlns="http://www.w3.org/2000/svg"><path class="stars-1f" d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-0h" d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z"></path><path class="stars-2f" d="M290.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-1h" d="M214,0.3c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H214z"></path><path class="stars-3f" d="M470.4 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c.1-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-2h" d="M393.9,0.6c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.6H393.9z"></path><path class="stars-4f" d="M650.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-3h" d="M573.9 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars-5f" d="M830.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-4h" d="M753.8 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars" d="M72 19.3l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm179.8 0l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm180 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2z" fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="2"></path></svg></div></div><div class="review-rating-module__content__author">by <span class="review-rating-module__content__author-name">arles</span></div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__details" itemProp="description">BMW X5 - Pre-purchase Car Inspection - Loganville, Georgia</div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__review" itemProp="reviewBody">My mechanic was very knowledgeable and took the time to answer all my questions. I will definitely use again.</div></div></div></div></div></div></div><div class="review-rating-module__content"><div itemProp="Review" itemscope="" itemType="https://schema.org/Review"><div itemProp="itemReviewed" itemscope="" itemType="https://schema.org/Service"><meta itemProp="name" content="YourMechanic Pre-purchase Car Inspection"/></div><div class="container"><div class="review-rating-module__content__item"><div class="row"><div class="col-sm-12"><div itemProp="author" itemscope="" itemType="https://schema.org/Person"><meta content="Kent" itemProp="name"/></div><div class="review-rating-module__content__rating" itemProp="reviewRating" itemscope="" itemType="https://schema.org/Rating"><meta itemProp="ratingValue" content="5"/><meta itemProp="bestRating" content="5"/><meta itemProp="worstRating" content="1"/><div class="mb-review-star-rating text-left"><svg class="rating rating-50" height="18" width="116" id="general-rating" viewBox="0 0 865 145" xmlns="http://www.w3.org/2000/svg"><path class="stars-1f" d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-0h" d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z"></path><path class="stars-2f" d="M290.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-1h" d="M214,0.3c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H214z"></path><path class="stars-3f" d="M470.4 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c.1-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-2h" d="M393.9,0.6c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.6H393.9z"></path><path class="stars-4f" d="M650.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-3h" d="M573.9 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars-5f" d="M830.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-4h" d="M753.8 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars" d="M72 19.3l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm179.8 0l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm180 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2z" fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="2"></path></svg></div></div><div class="review-rating-module__content__author">by <span class="review-rating-module__content__author-name">Kent</span></div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__details" itemProp="description">BMW 535d xDrive - Pre-purchase Car Inspection - Loganville, Georgia</div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__review" itemProp="reviewBody">GReat service and even arrived earlier than our appointment which worked great for me.  Was willing to answer all of my questions</div></div></div></div></div></div></div></div></div></div>
+
+      <div class="js-react-on-rails-component" data-component-name="MechanicReviewRating" data-dom-id="MechanicReviewRating-react-component-f4466209-189a-4d55-a54d-d5372953e12f" data-props="{&quot;mechanic&quot;:{&quot;id&quot;:1781598,&quot;name&quot;:&quot;Jason&quot;,&quot;login&quot;:&quot;jasonwade&quot;,&quot;mech_location&quot;:&quot;Brooklyn, NY&quot;,&quot;experience&quot;:14,&quot;avatar_url&quot;:&quot;https://res.cloudinary.com/yourmechanic/image/upload/dpr_auto,f_auto,g_face,q_auto/v1/mechanic/avatar_images/17841283821186286703&quot;,&quot;avatar_path&quot;:&quot;mechanic/avatar_images/17841283821186286703&quot;,&quot;profile_url&quot;:&quot;/pro/jasonwade&quot;,&quot;average_rating&quot;:5,&quot;ratings_count&quot;:188,&quot;reviews&quot;:[{&quot;rating&quot;:5,&quot;content&quot;:&quot;Jason came on time, explained the procedure and immediately started the pre-purchase inspection on my 2012 Dodge Charger. Very thorough, very knowledgeable! I\u2019ll be using YourMechanic for the suggested maintenance and repairs.&quot;,&quot;author&quot;:&quot;Joseph&quot;,&quot;review_date&quot;:&quot;2020-06-21T20:54:05-07:00&quot;,&quot;service_location&quot;:&quot;Carteret, New Jersey&quot;,&quot;car&quot;:&quot;2012 Dodge Charger&quot;,&quot;job&quot;:&quot;Pre-purchase Car Inspection&quot;},{&quot;rating&quot;:5,&quot;content&quot;:&quot;I truly appreciate Jason\u2019s professionalism and the fact that he was quite detailed in his inspection of my vehicle. As a result, I now feel much more confident in my purchase and will utilize Jason\u2019s services in the future.&quot;,&quot;author&quot;:&quot;Angela&quot;,&quot;review_date&quot;:&quot;2020-06-19T20:15:06-07:00&quot;,&quot;service_location&quot;:&quot;Linden, New Jersey&quot;,&quot;car&quot;:&quot;2018 Nissan Rogue&quot;,&quot;job&quot;:&quot;Pre-purchase Car Inspection&quot;}]},&quot;jid&quot;:396,&quot;hide_review_cta&quot;:false,&quot;review_subject&quot;:&quot;YourMechanic Pre-purchase Car Inspection&quot;,&quot;hide_description&quot;:false}" data-trace="true" style="display: none"></div>
+      <div id="MechanicReviewRating-react-component-f4466209-189a-4d55-a54d-d5372953e12f"><div class="review-rating-module spaceb-20" data-reactroot=""><div class="review-rating-module__side"><div class="row"><div class="col-sm-12 text-center"><div class="review-rating-module-avatar review-rating-module-avatar-mechanic"><span class=" lazy-load-image-background opacity" style="background-image:url( );background-size:100% 100%;color:transparent;display:inline-block;height:80px;width:80px"><span class="" style="display:inline-block;height:80px;width:80px"></span></span></div><div class="review-rating-module__side-details"><a href="/pro/jasonwade"><h3 class="review-rating-module__side__name">Jason</h3></a><div class="review-rating-module__details__heading-details-mobile">14 years of experience</div><div class="review-rating-module__side__review">188 reviews</div><div class="col-sm-5 mobile"><a class="review-rating-module__details__cta button" href="/book?mechanic=jasonwade&amp;mktg_jid=396">Request Jason</a></div></div></div></div></div><div class="review-rating-module__body"><div class="review-rating-module__heading"><div class="container"><div class="row"><div class="col-sm-7"><div class="review-rating-module__details__heading-name">Jason</div><div class="review-rating-module__details__heading-details">14 years of experience</div></div><div class="col-sm-5"><a class="review-rating-module__details__cta button pull-right" href="/book?mechanic=jasonwade&amp;mktg_jid=396">Request Jason</a></div></div></div></div><div class="review-rating-module__content"><div itemProp="Review" itemscope="" itemType="https://schema.org/Review"><div itemProp="itemReviewed" itemscope="" itemType="https://schema.org/Service"><meta itemProp="name" content="YourMechanic Pre-purchase Car Inspection"/></div><div class="container"><div class="review-rating-module__content__item"><div class="row"><div class="col-sm-12"><div itemProp="author" itemscope="" itemType="https://schema.org/Person"><meta content="Joseph" itemProp="name"/></div><div class="review-rating-module__content__rating" itemProp="reviewRating" itemscope="" itemType="https://schema.org/Rating"><meta itemProp="ratingValue" content="5"/><meta itemProp="bestRating" content="5"/><meta itemProp="worstRating" content="1"/><div class="mb-review-star-rating text-left"><svg class="rating rating-50" height="18" width="116" id="general-rating" viewBox="0 0 865 145" xmlns="http://www.w3.org/2000/svg"><path class="stars-1f" d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-0h" d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z"></path><path class="stars-2f" d="M290.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-1h" d="M214,0.3c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H214z"></path><path class="stars-3f" d="M470.4 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c.1-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-2h" d="M393.9,0.6c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.6H393.9z"></path><path class="stars-4f" d="M650.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-3h" d="M573.9 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars-5f" d="M830.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-4h" d="M753.8 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars" d="M72 19.3l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm179.8 0l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm180 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2z" fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="2"></path></svg></div></div><div class="review-rating-module__content__author">by <span class="review-rating-module__content__author-name">Joseph</span></div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__details" itemProp="description">Dodge Charger - Pre-purchase Car Inspection - Carteret, New Jersey</div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__review" itemProp="reviewBody">Jason came on time, explained the procedure and immediately started the pre-purchase inspection on my 2012 Dodge Charger. Very thorough, very knowledgeable! I’ll be using YourMechanic for the suggested maintenance and repairs.</div></div></div></div></div></div></div><div class="review-rating-module__content"><div itemProp="Review" itemscope="" itemType="https://schema.org/Review"><div itemProp="itemReviewed" itemscope="" itemType="https://schema.org/Service"><meta itemProp="name" content="YourMechanic Pre-purchase Car Inspection"/></div><div class="container"><div class="review-rating-module__content__item"><div class="row"><div class="col-sm-12"><div itemProp="author" itemscope="" itemType="https://schema.org/Person"><meta content="Angela" itemProp="name"/></div><div class="review-rating-module__content__rating" itemProp="reviewRating" itemscope="" itemType="https://schema.org/Rating"><meta itemProp="ratingValue" content="5"/><meta itemProp="bestRating" content="5"/><meta itemProp="worstRating" content="1"/><div class="mb-review-star-rating text-left"><svg class="rating rating-50" height="18" width="116" id="general-rating" viewBox="0 0 865 145" xmlns="http://www.w3.org/2000/svg"><path class="stars-1f" d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-0h" d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z"></path><path class="stars-2f" d="M290.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-1h" d="M214,0.3c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H214z"></path><path class="stars-3f" d="M470.4 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c.1-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-2h" d="M393.9,0.6c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.6H393.9z"></path><path class="stars-4f" d="M650.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-3h" d="M573.9 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars-5f" d="M830.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-4h" d="M753.8 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars" d="M72 19.3l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm179.8 0l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm180 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2z" fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="2"></path></svg></div></div><div class="review-rating-module__content__author">by <span class="review-rating-module__content__author-name">Angela</span></div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__details" itemProp="description">Nissan Rogue - Pre-purchase Car Inspection - Linden, New Jersey</div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__review" itemProp="reviewBody">I truly appreciate Jason’s professionalism and the fact that he was quite detailed in his inspection of my vehicle. As a result, I now feel much more confident in my purchase and will utilize Jason’s services in the future.</div></div></div></div></div></div></div></div></div></div>
+
+      <div class="js-react-on-rails-component" data-component-name="MechanicReviewRating" data-dom-id="MechanicReviewRating-react-component-3f3fd7d4-bad7-419b-9d6e-99b5b716f765" data-props="{&quot;mechanic&quot;:{&quot;id&quot;:1752854,&quot;name&quot;:&quot;Pierre&quot;,&quot;login&quot;:&quot;prgirault&quot;,&quot;mech_location&quot;:&quot;Mattapan, MA&quot;,&quot;experience&quot;:8,&quot;avatar_url&quot;:&quot;https://res.cloudinary.com/yourmechanic/image/upload/dpr_auto,f_auto,g_face,q_auto/v1/mechanic/avatar_images/4939599468938807143&quot;,&quot;avatar_path&quot;:&quot;mechanic/avatar_images/4939599468938807143&quot;,&quot;profile_url&quot;:&quot;/pro/prgirault&quot;,&quot;average_rating&quot;:5,&quot;ratings_count&quot;:98,&quot;reviews&quot;:[{&quot;rating&quot;:5,&quot;content&quot;:&quot;My husband and I had Pierre take a look at a car for us before we bought it. He was super communicative with us, letting us know that he was running behind and would be a little late. When he did the inspection the guys at dealership were very impressed by Pierre and his thoroughness. After his inspection he gave us a full list of what he found and his professional opinion on the vehicle. Pierre&#x27;s assessment gave us the confidence to purchase the car.&quot;,&quot;author&quot;:&quot;Anna&quot;,&quot;review_date&quot;:&quot;2020-06-18T20:23:16-07:00&quot;,&quot;service_location&quot;:&quot;Revere, Massachusetts&quot;,&quot;car&quot;:&quot;2013 Subaru Impreza&quot;,&quot;job&quot;:&quot;Pre-purchase Car Inspection&quot;},{&quot;rating&quot;:5,&quot;content&quot;:&quot;Was running a bit late but called well ahead to let me know. Extremely professional, would recommend to anybody in the area. 10/10&quot;,&quot;author&quot;:&quot;Timothy&quot;,&quot;review_date&quot;:&quot;2020-06-18T19:19:56-07:00&quot;,&quot;service_location&quot;:&quot;Arlington, Massachusetts&quot;,&quot;car&quot;:&quot;2005 Hyundai Elantra&quot;,&quot;job&quot;:&quot;Pre-purchase Car Inspection&quot;}]},&quot;jid&quot;:396,&quot;hide_review_cta&quot;:false,&quot;review_subject&quot;:&quot;YourMechanic Pre-purchase Car Inspection&quot;,&quot;hide_description&quot;:false}" data-trace="true" style="display: none"></div>
+      <div id="MechanicReviewRating-react-component-3f3fd7d4-bad7-419b-9d6e-99b5b716f765"><div class="review-rating-module spaceb-20" data-reactroot=""><div class="review-rating-module__side"><div class="row"><div class="col-sm-12 text-center"><div class="review-rating-module-avatar review-rating-module-avatar-mechanic"><span class=" lazy-load-image-background opacity" style="background-image:url( );background-size:100% 100%;color:transparent;display:inline-block;height:80px;width:80px"><span class="" style="display:inline-block;height:80px;width:80px"></span></span></div><div class="review-rating-module__side-details"><a href="/pro/prgirault"><h3 class="review-rating-module__side__name">Pierre</h3></a><div class="review-rating-module__details__heading-details-mobile">8 years of experience</div><div class="review-rating-module__side__review">98 reviews</div><div class="col-sm-5 mobile"><a class="review-rating-module__details__cta button" href="/book?mechanic=prgirault&amp;mktg_jid=396">Request Pierre</a></div></div></div></div></div><div class="review-rating-module__body"><div class="review-rating-module__heading"><div class="container"><div class="row"><div class="col-sm-7"><div class="review-rating-module__details__heading-name">Pierre</div><div class="review-rating-module__details__heading-details">8 years of experience</div></div><div class="col-sm-5"><a class="review-rating-module__details__cta button pull-right" href="/book?mechanic=prgirault&amp;mktg_jid=396">Request Pierre</a></div></div></div></div><div class="review-rating-module__content"><div itemProp="Review" itemscope="" itemType="https://schema.org/Review"><div itemProp="itemReviewed" itemscope="" itemType="https://schema.org/Service"><meta itemProp="name" content="YourMechanic Pre-purchase Car Inspection"/></div><div class="container"><div class="review-rating-module__content__item"><div class="row"><div class="col-sm-12"><div itemProp="author" itemscope="" itemType="https://schema.org/Person"><meta content="Anna" itemProp="name"/></div><div class="review-rating-module__content__rating" itemProp="reviewRating" itemscope="" itemType="https://schema.org/Rating"><meta itemProp="ratingValue" content="5"/><meta itemProp="bestRating" content="5"/><meta itemProp="worstRating" content="1"/><div class="mb-review-star-rating text-left"><svg class="rating rating-50" height="18" width="116" id="general-rating" viewBox="0 0 865 145" xmlns="http://www.w3.org/2000/svg"><path class="stars-1f" d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-0h" d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z"></path><path class="stars-2f" d="M290.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-1h" d="M214,0.3c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H214z"></path><path class="stars-3f" d="M470.4 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c.1-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-2h" d="M393.9,0.6c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.6H393.9z"></path><path class="stars-4f" d="M650.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-3h" d="M573.9 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars-5f" d="M830.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-4h" d="M753.8 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars" d="M72 19.3l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm179.8 0l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm180 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2z" fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="2"></path></svg></div></div><div class="review-rating-module__content__author">by <span class="review-rating-module__content__author-name">Anna</span></div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__details" itemProp="description">Subaru Impreza - Pre-purchase Car Inspection - Revere, Massachusetts</div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__review" itemProp="reviewBody">My husband and I had Pierre take a look at a car for us before we bought it. He was super communicative with us, letting us know that he was running behind and would be a little late. When he did the inspection the guys at dealership were very impressed by Pierre and his thoroughness. After his inspection he gave us a full list of what he found and his professional opinion on the vehicle. Pierre&#x27;s assessment gave us the confidence to purchase the car.</div></div></div></div></div></div></div><div class="review-rating-module__content"><div itemProp="Review" itemscope="" itemType="https://schema.org/Review"><div itemProp="itemReviewed" itemscope="" itemType="https://schema.org/Service"><meta itemProp="name" content="YourMechanic Pre-purchase Car Inspection"/></div><div class="container"><div class="review-rating-module__content__item"><div class="row"><div class="col-sm-12"><div itemProp="author" itemscope="" itemType="https://schema.org/Person"><meta content="Timothy" itemProp="name"/></div><div class="review-rating-module__content__rating" itemProp="reviewRating" itemscope="" itemType="https://schema.org/Rating"><meta itemProp="ratingValue" content="5"/><meta itemProp="bestRating" content="5"/><meta itemProp="worstRating" content="1"/><div class="mb-review-star-rating text-left"><svg class="rating rating-50" height="18" width="116" id="general-rating" viewBox="0 0 865 145" xmlns="http://www.w3.org/2000/svg"><path class="stars-1f" d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-0h" d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z"></path><path class="stars-2f" d="M290.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-1h" d="M214,0.3c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H214z"></path><path class="stars-3f" d="M470.4 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c.1-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-2h" d="M393.9,0.6c-18.6,0-33.7,15.1-33.7,33.7v77c0,18.6,15.1,33.7,33.7,33.7h38.3V0.6H393.9z"></path><path class="stars-4f" d="M650.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-3h" d="M573.9 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars-5f" d="M830.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z"></path><path class="stars-4h" d="M753.8 0c-18.6 0-33.7 15.1-33.7 33.7v77c0 18.6 15.1 33.7 33.7 33.7h38.3v-144.4h-38.3z"></path><path class="stars" d="M72 19.3l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm179.8 0l13.6 35.4 37.9 2-29.5 23.9 9.8 36.6-31.8-20.6-31.8 20.6 9.8-36.6-29.5-23.9 37.9-2zm180.2 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2zm180 0l13.6 35.4 37.8 2-29.4 23.9 9.8 36.6-31.8-20.6-31.9 20.6 9.8-36.6-29.4-23.9 37.8-2z" fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="2"></path></svg></div></div><div class="review-rating-module__content__author">by <span class="review-rating-module__content__author-name">Timothy</span></div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__details" itemProp="description">Hyundai Elantra - Pre-purchase Car Inspection - Arlington, Massachusetts</div></div></div><div class="row"><div class="col-sm-12"><div class="review-rating-module__content__review" itemProp="reviewBody">Was running a bit late but called well ahead to let me know. Extremely professional, would recommend to anybody in the area. 10/10</div></div></div></div></div></div></div></div></div></div>
+
+</div>
+</div>
+</div>
+</section>
+<section class='qna-section qna-section--bg-blue qna-section__need-help'>
+<div class='qna-section__need-help--title spaceb-10'>
+<h3 class='qna-section__heading'>
+Need Help With Your Car?
+</h3>
+</div>
+<div class='container'>
+<div class='row'>
+<div class='col-sm-6 col-centered'>
+<div class='qna-section__need-help--column'>
+<p>
+Our certified mobile mechanics make house calls in over 2,000 U.S. cities. Fast, free online quotes for your car repair.
+</p>
+</div>
+<a class='qna-btn qna-btn--primary qna-btn--bg-white qna-btn--borderradius-5 qna-btn--block spaceb-20 visible-xs' href='/book'>
+GET A QUOTE
+</a>
+</div>
+</div>
+<div class='row hidden-xs'>
+<div class='col-sm-6 col-lg-4 col-lg-offset-2 col-centered'>
+<a class='qna-btn qna-btn--primary qna-btn--bg-white qna-btn--borderradius-5 qna-btn--block' href='/book'>
+GET A QUOTE
+</a>
+</div>
+</div>
+</div>
+</section>
+<section class='qna-section qna-section--bg-white hidden-md hidden-lg mobile-articles'>
+<div class='container'>
+<div class='row'>
+<div class='col-xs-12'>
+<h3 class='qna-section__heading spaceb-30 text-center'>
+Related articles
+</h3>
+</div>
+</div>
+<div class='row'>
+<div class='col-md-4'>
+<div onclick="window.location = '/article/different-types-of-drivers-on-the-road-by-kevin-woo'">
+<div class='qna-box qna-box--card'>
+<div class='qna-box__image' style="background-image: url('https://res.cloudinary.com/yourmechanic/image/upload/dpr_auto,f_auto,q_auto/v1/article_images/RS_Driving_Personalities_2');"></div>
+<div class='qna-box__body'>
+<a class='qna-box__heading' href='/article/different-types-of-drivers-on-the-road-by-kevin-woo'>Different Types of Drivers on the Road</a>
+<div class='qna-box__content'>
+There There are 210 million people with a driver’s license in the US. As you sit in traffic - yet again - you’re pretty certain that all 210 million of those people are on road with you. “Those people” include...
+</div>
+<div class='qna-box__footer'>
+<a class='qna-box__more-btn' href='/article/different-types-of-drivers-on-the-road-by-kevin-woo'>
+Read more
+<i class='qna-icon-right-arrow'></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<div class='col-md-4'>
+<div onclick="window.location = '/article/understanding-audi-service-indicator-lights-by-brent-minderler'">
+<div class='qna-box qna-box--card'>
+<div class='qna-box__image' style="background-image: url('https://res.cloudinary.com/yourmechanic/image/upload/dpr_auto,f_auto,q_auto/v1/article_images/1_Understanding_the_Audi_Mileage_instrument_panel_of_an_Audii');"></div>
+<div class='qna-box__body'>
+<a class='qna-box__heading' href='/article/understanding-audi-service-indicator-lights-by-brent-minderler'>Understanding the Audi Service Due and Indicator Lights</a>
+<div class='qna-box__content'>
+Car symbols, or dashboard lights, are a car service reminder. The Audi Service Due light indicates when your car needs service.
+</div>
+<div class='qna-box__footer'>
+<a class='qna-box__more-btn' href='/article/understanding-audi-service-indicator-lights-by-brent-minderler'>
+Read more
+<i class='qna-icon-right-arrow'></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<div class='col-md-4'>
+<div onclick="window.location = '/article/5-red-flags-that-your-car-needs-immediate-attention'">
+<div class='qna-box qna-box--card'>
+<div class='qna-box__image' style="background-image: url('https://res.cloudinary.com/yourmechanic/image/upload/dpr_auto,f_auto,q_auto/v1/article_images/car_needs_attention');"></div>
+<div class='qna-box__body'>
+<a class='qna-box__heading' href='/article/5-red-flags-that-your-car-needs-immediate-attention'>5 Red Flags That Your Car Needs Immediate Attention</a>
+<div class='qna-box__content'>
+It It isn’t popular to think about, but you should be prepared for vehicle problems. Vehicles are designed and built by people, and they are only as perfect or flawed as the people who build them. That means sooner or...
+</div>
+<div class='qna-box__footer'>
+<a class='qna-box__more-btn' href='/article/5-red-flags-that-your-car-needs-immediate-attention'>
+Read more
+<i class='qna-icon-right-arrow'></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+<section class='qna-section qna-section--bg-white hidden-md hidden-lg mobile-articles'>
+<div class='container'>
+<h3 class='qna-section__heading spaceb-30 text-center'>
+Related questions
+</h3>
+<div class='row'>
+<div class='col-md-4'>
+<div onclick="window.location = '/question/battery-light-is-on-2007-jeep-wrangler-by-dave-h'">
+<div class='qna-box qna-box--question'>
+<div class='qna-box__body'>
+<h4 class='qna-box__heading' href='/question/battery-light-is-on-2007-jeep-wrangler-by-dave-h'>Battery Light is on - 2007 Jeep Wrangler</h4>
+<div class='qna-box__content'>
+Hello. The symptoms you describe (an illuminated battery light, along with flickering lights and stalling) are commonly caused by an issue with the alternator. The alternator is the component that generates power for the vehicle's various electrical systems, and can...
+</div>
+<div class='qna-box__footer'>
+<a class='qna-box__more-btn' href='/question/battery-light-is-on-2007-jeep-wrangler-by-dave-h'>
+Read more
+<i class='qna-icon-right-arrow'></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<div class='col-md-4'>
+<div onclick="window.location = '/question/why-does-my-car-start-one-day-and-the-next-day-it-wont-start-the-car-will-crank-but-wont-turn-over-by-marcus-d'">
+<div class='qna-box qna-box--question'>
+<div class='qna-box__body'>
+<h4 class='qna-box__heading' href='/question/why-does-my-car-start-one-day-and-the-next-day-it-wont-start-the-car-will-crank-but-wont-turn-over-by-marcus-d'>Why does my car start one day and the next day it wont start? The car will crank but wont turn over</h4>
+<div class='qna-box__content'>
+Hello, thank you for writing in. With intermittent symptoms, diagnosis can take longer but is typically the same as diagnosing any other starting problem. The main issue is that you can only perform the testing needed when the issue is...
+</div>
+<div class='qna-box__footer'>
+<a class='qna-box__more-btn' href='/question/why-does-my-car-start-one-day-and-the-next-day-it-wont-start-the-car-will-crank-but-wont-turn-over-by-marcus-d'>
+Read more
+<i class='qna-icon-right-arrow'></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<div class='col-md-4'>
+<div onclick="window.location = '/question/crank-no-start-by-matthew-s_2'">
+<div class='qna-box qna-box--question'>
+<div class='qna-box__body'>
+<h4 class='qna-box__heading' href='/question/crank-no-start-by-matthew-s_2'>Crank no start</h4>
+<div class='qna-box__content'>
+You will need to have the engine scanned for codes and diagnosed for loss of spark or fuel. Your water pump is driven by the timing belt, and if the belt broke or water pump seized, then you may have...
+</div>
+<div class='qna-box__footer'>
+<a class='qna-box__more-btn' href='/question/crank-no-start-by-matthew-s_2'>
+Read more
+<i class='qna-icon-right-arrow'></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<div id='fb-root'></div>
+<hr>
+<footer class='footer-style'>
+<div class='container wrapper'>
+<div class='row js-masonry'>
+<div class='col-md-2 col-sm-4 col-xs-6'>
+<h6>YourMechanic</h6>
+<ul>
+<li>
+<a href='/about'>About Us</a>
+</li>
+<li>
+<a href='/news'>Press</a>
+</li>
+<li>
+<a href='/fleet/register'>Fleet Maintenance</a>
+</li>
+<li>
+<a href='/careers'>Careers</a>
+</li>
+<li>
+<a href='/city'>Cities</a>
+</li>
+<li>
+<a href='/cars'>Cars</a>
+</li>
+<li>
+<a href='/estimates'>Estimates</a>
+</li>
+<li>
+<a href='/scheduled-maintenance'>Scheduled Maintenance</a>
+</li>
+<li>
+<a href='/gift'>Gift Cards</a>
+</li>
+<li>
+<a href='/partners'>Partners</a>
+</li>
+<li>
+<a href='/blog'>Blog</a>
+</li>
+</ul>
+</div>
+<div class='col-md-2 col-sm-4 col-xs-6'>
+<h6>Terms</h6>
+<ul>
+<li>
+<a href='/warranty'>Consumer Warranty</a>
+</li>
+<li>
+<a href='/enterprise-warranty'>Enterprise Warranty</a>
+</li>
+<li>
+<a href='/privacy-policy'>Privacy Policy</a>
+</li>
+<li>
+<a href='/trademark-policy'>Trademark Usage Policy</a>
+</li>
+<li>
+<a href='/terms-and-condition'>Terms of Use</a>
+</li>
+<li>
+<div class='item' style='font-size:smaller;'>BAR License: ARD00266575</div>
+<div class='item' style='font-size:smaller;'>FL License: MV94592</div>
+</li>
+</ul>
+</div>
+<div class='col-md-2 col-sm-4 col-xs-6'>
+<h6>For Mechanics</h6>
+<ul>
+<li>
+<a href='/automotive-technician-jobs'>Automotive Technician Jobs</a>
+</li>
+<li>
+<a href='https://play.google.com/store/apps/details?id=com.yourmechanic.mech'>Download Our Mechanic App</a>
+</li>
+</ul>
+</div>
+<div class='col-md-2 col-sm-4 col-xs-6'>
+<h6>Social</h6>
+<ul>
+<li>
+<a href='http://facebook.com/yourmech'>Facebook</a>
+</li>
+<li>
+<a href='https://www.linkedin.com/company/yourmechanic'>LinkedIn</a>
+</li>
+<li>
+<a href='http://twitter.com/yourmechanic'>Twitter</a>
+</li>
+<li>
+<a href='https://www.instagram.com/yourmechanic/'>Instagram</a>
+</li>
+<li>
+<a href='https://plus.google.com/116992315629446681387/about'>Google +</a>
+</li>
+</ul>
+</div>
+<div class='col-md-12 col-sm-12 col-xs-12 text-right'>
+      <div class="js-react-on-rails-component" data-component-name="LazyImage" data-dom-id="LazyImage-react-component-6d8ba8a6-a219-43cb-8003-9839c0a86075" data-props="{&quot;alt&quot;:&quot;BBB Accredited Business&quot;,&quot;src&quot;:&quot;/assets/icons/bbb-gray.png&quot;}" data-trace="true" style="display: none"></div>
+      <div id="LazyImage-react-component-6d8ba8a6-a219-43cb-8003-9839c0a86075"><span class=" lazy-load-image-background opacity" style="background-image:url( );background-size:100% 100%;color:transparent;display:inline-block" data-reactroot=""><span class="" style="display:inline-block;height:0;width:0"></span></span></div>
+
+      <div class="js-react-on-rails-component" data-component-name="LazyImage" data-dom-id="LazyImage-react-component-7c3abe2c-9b04-4f39-aecc-073161fe28d7" data-props="{&quot;alt&quot;:&quot;Norton Secured&quot;,&quot;src&quot;:&quot;/assets/icons/norton-gray.png&quot;}" data-trace="true" style="display: none"></div>
+      <div id="LazyImage-react-component-7c3abe2c-9b04-4f39-aecc-073161fe28d7"><span class=" lazy-load-image-background opacity" style="background-image:url( );background-size:100% 100%;color:transparent;display:inline-block" data-reactroot=""><span class="" style="display:inline-block;height:0;width:0"></span></span></div>
+
+</div>
+</div>
+</div>
+<hr>
+<div class='container copyright'>
+<div class='row'>
+<div class='col-sm-6 pull-left'>
+<p>
+&copy;
+<script>
+document.write(new Date().getFullYear())
+</script>
+YourMechanic All rights reserved.  Made with &hearts; in Silicon Valley.
+</p>
+</div>
+</div>
+</div>
+</footer>
+
+</div>
+<div id='site_javascripts'>
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {
+
+  // If By Phone
+  window._stk = "dc4a67eaa623052086dd7351962573c9c611ea0d";
+  (function(){
+    var a=document, b=a.createElement("script"); b.type="text/javascript";
+    b.async=!0; b.src=('https:'==document.location.protocol ? 'https://' :
+    'http://') + 'd31y97ze264gaa.cloudfront.net/assets/st/js/st.js';
+    a=a.getElementsByTagName("script")[0]; a.parentNode.insertBefore(b,a);
+  })();
+
+}).call(this);
+//]]>
+</script>
+<script async="async" src="//d310p4tz9tc9pz.cloudfront.net/assets/webpack/advice-bundle-121773f4c71d84042899e0a4f4e38b1e.js" type="text/javascript"></script>
+<script>
+  window.hamlet.onReady(function() {
+    window.hamlet.activate(45);
+  });
+</script>
+
+</div>
+</body>
+</html>
